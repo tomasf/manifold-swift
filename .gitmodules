@@ -1,0 +1,3 @@
+[submodule "Sources/manifold"]
+	path = Libraries/manifold
+	url = https://github.com/elalish/manifold.git
