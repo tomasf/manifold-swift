@@ -1,3 +1,6 @@
 [submodule "Sources/manifold"]
 	path = Libraries/manifold
 	url = https://github.com/elalish/manifold.git
+[submodule "Libraries/clipper2"]
+	path = Libraries/clipper2
+	url = https://github.com/AngusJohnson/Clipper2

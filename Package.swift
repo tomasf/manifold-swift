@@ -9,9 +9,15 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "Clipper2",
+            path: "Libraries/clipper2/CPP/Clipper2Lib",
+            sources: ["src"]
+        ),
+        .target(
             name: "ManifoldCPP",
+            dependencies: ["Clipper2"],
             path: "Libraries/manifold",
-            exclude: ["src/CMakeLists.txt", "src/cross_section", "src/meshIO"],
+            exclude: ["src/CMakeLists.txt", "src/meshIO"],
             sources: ["src"],
             cxxSettings: [
                 .define("MANIFOLD_PAR", to: "-1"),
