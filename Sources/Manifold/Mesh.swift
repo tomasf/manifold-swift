@@ -70,6 +70,10 @@ public extension Mesh {
         mesh.Decompose().map(Mesh.init)
     }
 
+    func transform(_ transform: any Matrix3x4) -> Self {
+        Self(mesh.Transform(transform.mat3x4))
+    }
+
     func translate(_ translation: any Vector3) -> Self {
         Self(mesh.Translate(translation.vec3))
     }
