@@ -56,13 +56,13 @@ public extension Mesh {
         Self(manifold.Manifold.Cylinder(height, bottomRadius, topRadius, Int32(segmentCount)))
     }
 
-    static func box(size: any Vector3) -> Self {
+    static func cube(size: any Vector3) -> Self {
         Self(manifold.Manifold.Cube(size.vec3))
     }
 }
 
 public extension Mesh {
-    func applyOperation(_ op: BooleanOperation, with other: Mesh) -> Self {
+    func boolean(_ op: BooleanOperation, with other: Mesh) -> Self {
         Self(mesh.Boolean(other.mesh, op.manifoldOp))
     }
 
@@ -81,14 +81,8 @@ public extension Mesh {
     func rotate(_ rotation: any Vector3) -> Self {
         Self(mesh.Rotate(rotation.x, rotation.y, rotation.z))
     }
-
-    /*func warp(_ function: (any Vector3) -> any Vector3) -> Self {
-        let newMesh = mesh.Warp(.init { v in
-            function(v).vec3
-        })
-    }*/
-
-    func convexHull() -> Self {
+    
+    func hull() -> Self {
         Self(mesh.Hull())
     }
 }
