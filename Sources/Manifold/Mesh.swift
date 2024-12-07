@@ -66,6 +66,10 @@ public extension Mesh {
         Self(mesh.Boolean(other.mesh, op.manifoldOp))
     }
 
+    func batchBoolean(_ op: BooleanOperation, with other: [Mesh]) -> Self {
+        Self(manifold.Manifold.BatchBoolean(.init(other.map(\.mesh)), op.manifoldOp))
+    }
+
     func decompose() -> [Mesh] {
         mesh.Decompose().map(Mesh.init)
     }

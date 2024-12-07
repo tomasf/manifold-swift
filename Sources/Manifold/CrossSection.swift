@@ -46,6 +46,10 @@ public extension CrossSection {
         Self(crossSection.Boolean(other.crossSection, op.manifoldOp))
     }
 
+    func batchBoolean(_ op: BooleanOperation, with other: [CrossSection]) -> Self {
+        Self(manifold.CrossSection.BatchBoolean(.init(other.map(\.crossSection)), op.manifoldOp))
+    }
+
     func transform(_ transform: any Matrix2x3) -> Self {
         Self(crossSection.Transform(transform.mat2x3))
     }
