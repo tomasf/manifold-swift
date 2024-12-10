@@ -37,6 +37,10 @@ public extension Mesh {
     var volume: Double {
         mesh.Volume()
     }
+
+    func meshData() -> any MeshData {
+        mesh.GetMeshGL64()
+    }
 }
 
 public extension Mesh {
