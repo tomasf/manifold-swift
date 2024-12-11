@@ -44,6 +44,10 @@ public extension CrossSection {
     static func polygon(_ polygon: [any Vector2]) -> Self {
         Self(manifold.CrossSection(.init(polygon.map(\.vec2)), .NonZero))
     }
+
+    static func boolean(_ op: BooleanOperation, with children: [CrossSection]) -> Self {
+        Self(manifold.CrossSection.BatchBoolean(.init(children.map(\.crossSection)), op.manifoldOp))
+    }
 }
 
 // SimplePolygon is already CxxVector
@@ -53,10 +57,6 @@ extension manifold.SimplePolygon: CxxVector {}
 public extension CrossSection {
     func boolean(_ op: BooleanOperation, with other: CrossSection) -> Self {
         Self(crossSection.Boolean(other.crossSection, op.manifoldOp))
-    }
-
-    func batchBoolean(_ op: BooleanOperation, with other: [CrossSection]) -> Self {
-        Self(manifold.CrossSection.BatchBoolean(.init(other.map(\.crossSection)), op.manifoldOp))
     }
 
     func transform(_ transform: any Matrix2x3) -> Self {

@@ -68,15 +68,15 @@ public extension Mesh {
     static func cube(size: any Vector3) -> Self {
         Self(manifold.Manifold.Cube(size.vec3))
     }
+
+    static func boolean(_ op: BooleanOperation, with children: [Mesh]) -> Self {
+        Self(manifold.Manifold.BatchBoolean(.init(children.map(\.mesh)), op.manifoldOp))
+    }
 }
 
 public extension Mesh {
     func boolean(_ op: BooleanOperation, with other: Mesh) -> Self {
         Self(mesh.Boolean(other.mesh, op.manifoldOp))
-    }
-
-    func batchBoolean(_ op: BooleanOperation, with other: [Mesh]) -> Self {
-        Self(manifold.Manifold.BatchBoolean(.init(other.map(\.mesh)), op.manifoldOp))
     }
 
     func decompose() -> [Mesh] {
