@@ -78,6 +78,26 @@ public extension CrossSection {
     func hull() -> Self {
         Self(crossSection.Hull())
     }
+
+    func offset(amount: Double, joinType: JoinType, miterLimit: Double, circularSegments: Int? = nil) -> Self {
+        Self(crossSection.Offset(amount, joinType.manifoldType, miterLimit, Int32(circularSegments ?? 0)))
+    }
+}
+
+public extension CrossSection {
+    enum JoinType: Int {
+        case miter
+        case round
+        case square
+
+        internal var manifoldType: manifold.CrossSection.JoinType {
+            switch self {
+            case .miter: return .Miter
+            case .round: return .Round
+            case .square: return .Square
+            }
+        }
+    }
 }
 
 public extension CrossSection {
