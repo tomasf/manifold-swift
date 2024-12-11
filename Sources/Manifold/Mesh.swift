@@ -103,3 +103,13 @@ public extension Mesh {
         Self(mesh.Hull())
     }
 }
+
+public extension Mesh {
+    func projection() -> CrossSection {
+        CrossSection(manifold.CrossSection(mesh.Project(), .Positive))
+    }
+    
+    func slice(at z: Double) -> CrossSection {
+        CrossSection(manifold.CrossSection(mesh.Slice(z), .Positive))
+    }
+}
