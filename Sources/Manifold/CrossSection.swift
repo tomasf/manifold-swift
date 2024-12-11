@@ -105,7 +105,7 @@ public extension CrossSection {
         .init(manifold.Manifold.Extrude(crossSection.ToPolygons(), height, Int32(divisions), twistDegrees, scaleTop?.vec2 ?? .init(1, 1)))
     }
 
-    func revolve(degrees: Double, circularSegments: Int) -> Mesh {
-        .init(manifold.Manifold.Revolve(crossSection.ToPolygons(), Int32(circularSegments), degrees))
+    func revolve(degrees: Double, circularSegments: Int? = nil) -> Mesh {
+        .init(manifold.Manifold.Revolve(crossSection.ToPolygons(), Int32(circularSegments ?? 0), degrees))
     }
 }
