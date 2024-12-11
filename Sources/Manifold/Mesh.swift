@@ -38,6 +38,11 @@ public extension Mesh {
         mesh.Volume()
     }
 
+    var originalID: Int? {
+        let id = mesh.OriginalID()
+        return id == -1 ? nil : Int(id)
+    }
+
     func meshData() -> any MeshData {
         mesh.GetMeshGL64()
     }

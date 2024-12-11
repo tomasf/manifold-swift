@@ -10,6 +10,9 @@ public protocol Triangle {
 public protocol MeshData {
     var triangles: [Triangle] { get }
     var vertices: [Vector3] { get }
+
+    // Maps original IDs to sets of triangle indices
+    var originalIDs: [Int: IndexSet] { get }
 }
 
 extension manifold.MeshGL64: MeshData {
@@ -23,6 +26,14 @@ extension manifold.MeshGL64: MeshData {
     public var vertices: [any Vector3] {
         (0..<NumVert()).map {
             GetVertPos(Int($0))
+        }
+    }
+
+    public var originalIDs: [Int: IndexSet] {
+        let ranges = (runIndex + [NumTri()]).paired().map { Int($0)..<Int($1) }
+        return ranges.enumerated().reduce(into: [:]) { result, item in
+            let originalID = Int(runOriginalID[item.offset])
+            result[originalID, default: IndexSet()].insert(integersIn: item.element)
         }
     }
 }
