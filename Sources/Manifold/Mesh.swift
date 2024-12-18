@@ -44,17 +44,21 @@ public extension Mesh {
         mesh.Volume()
     }
 
-    var originalID: Int? {
+    func meshData() -> any MeshData {
+        mesh.GetMeshGL64()
+    }
+}
+
+public extension Mesh {
+    typealias OriginalID = Int
+
+    var originalID: OriginalID? {
         let id = mesh.OriginalID()
         return id == -1 ? nil : Int(id)
     }
 
     func asOriginal() -> Mesh {
         Mesh(mesh.AsOriginal())
-    }
-
-    func meshData() -> any MeshData {
-        mesh.GetMeshGL64()
     }
 }
 

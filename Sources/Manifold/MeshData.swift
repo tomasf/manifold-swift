@@ -2,9 +2,10 @@ import Foundation
 import ManifoldCPP
 
 public protocol Triangle {
-    var a: UInt64 { get }
-    var b: UInt64 { get }
-    var c: UInt64 { get }
+    typealias VertexIndex = UInt64
+    var a: VertexIndex { get }
+    var b: VertexIndex { get }
+    var c: VertexIndex { get }
     var faceID: UInt64 { get }
 }
 
@@ -13,7 +14,7 @@ public protocol MeshData {
     var vertices: [Vector3] { get }
 
     // Maps original IDs to sets of triangle indices
-    var originalIDs: [Int: IndexSet] { get }
+    var originalIDs: [Mesh.OriginalID: IndexSet] { get }
 }
 
 extension manifold.MeshGL64: MeshData {
@@ -30,7 +31,7 @@ extension manifold.MeshGL64: MeshData {
         }
     }
 
-    public var originalIDs: [Int: IndexSet] {
+    public var originalIDs: [Mesh.OriginalID: IndexSet] {
         let ranges = (runIndex + [NumTri()]).paired().map { Int($0)..<Int($1) }
         return ranges.enumerated().reduce(into: [:]) { result, item in
             let originalID = Int(runOriginalID[item.offset])
@@ -40,8 +41,8 @@ extension manifold.MeshGL64: MeshData {
 }
 
 struct VertexIndices: Triangle {
-    let a: UInt64
-    let b: UInt64
-    let c: UInt64
+    let a: VertexIndex
+    let b: VertexIndex
+    let c: VertexIndex
     let faceID: UInt64
 }
