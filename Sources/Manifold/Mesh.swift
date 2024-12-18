@@ -9,6 +9,12 @@ public struct Mesh {
 }
 
 public extension Mesh {
+    static func compose(meshes: [Mesh]) -> Mesh {
+        Self(manifold.Manifold.Compose(.init(meshes.map(\.mesh))))
+    }
+}
+
+public extension Mesh {
     var isEmpty: Bool {
         mesh.IsEmpty()
     }
@@ -41,6 +47,10 @@ public extension Mesh {
     var originalID: Int? {
         let id = mesh.OriginalID()
         return id == -1 ? nil : Int(id)
+    }
+
+    func asOriginal() -> Mesh {
+        Mesh(mesh.AsOriginal())
     }
 
     func meshData() -> any MeshData {
@@ -105,11 +115,54 @@ public extension Mesh {
 }
 
 public extension Mesh {
+    func split(by cutter: Mesh) -> (Mesh, Mesh) {
+        let results = mesh.Split(cutter.mesh)
+        return (Mesh(results.first), Mesh(results.second))
+    }
+
+    func split(by plane: Vector3, originOffset: Double) -> (Mesh, Mesh) {
+        let results = mesh.SplitByPlane(plane.vec3, originOffset)
+        return (Mesh(results.first), Mesh(results.second))
+    }
+
+    func trim(by plane: Vector3, originOffset: Double) -> Mesh {
+        Mesh(mesh.TrimByPlane(plane.vec3, originOffset))
+    }
+}
+
+public extension Mesh {
     func projection() -> CrossSection {
         CrossSection(manifold.CrossSection(mesh.Project(), .Positive))
     }
     
     func slice(at z: Double) -> CrossSection {
         CrossSection(manifold.CrossSection(mesh.Slice(z), .Positive))
+    }
+}
+
+public extension Mesh {
+    enum CircularSegments {
+        case defaults
+        case fixed (count: Int)
+        case dynamic (minAngle: Double, minEdgeLength: Double)
+    }
+
+    static func setCircleQuality(_ segments: CircularSegments) {
+        switch segments {
+        case .defaults:
+            manifold.Quality.ResetToDefaults()
+
+        case .fixed(count: let count):
+            manifold.Quality.SetCircularSegments(Int32(count))
+
+        case .dynamic(minAngle: let minAngle, minEdgeLength: let minEdgeLength):
+            manifold.Quality.SetCircularSegments(0)
+            manifold.Quality.SetMinCircularAngle(minAngle)
+            manifold.Quality.SetMinCircularEdgeLength(minEdgeLength)
+        }
+    }
+
+    static func circularSegmentCount(for radius: Double) -> Int {
+        Int(manifold.Quality.GetCircularSegments(radius))
     }
 }
