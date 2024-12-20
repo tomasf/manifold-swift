@@ -32,7 +32,7 @@ extension manifold.MeshGL64: MeshData {
     }
 
     public var originalIDs: [Mesh.OriginalID: IndexSet] {
-        let ranges = (runIndex + [NumTri()]).paired().map { Int($0)..<Int($1) }
+        let ranges = runIndex.paired().map { Int($0 / 3)..<Int($1 / 3) }
         return ranges.enumerated().reduce(into: [:]) { result, item in
             let originalID = Int(runOriginalID[item.offset])
             result[originalID, default: IndexSet()].insert(integersIn: item.element)
