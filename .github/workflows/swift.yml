@@ -20,6 +20,8 @@ jobs:
     steps:
     - uses: SwiftyLab/setup-swift@latest
     - uses: actions/checkout@v4
+      with:
+        submodules: true
     - name: Build
       run: swift build -v
 
