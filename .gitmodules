@@ -1,5 +1,5 @@
 [submodule "Sources/manifold"]
-	path = Libraries/manifold
+	path = Libraries/manifold-wrapped/manifold
 	url = https://github.com/elalish/manifold.git
 [submodule "Libraries/clipper2"]
 	path = Libraries/clipper2
