@@ -19,6 +19,8 @@ jobs:
 
     steps:
     - uses: SwiftyLab/setup-swift@latest
+      with:
+        development: true
     - uses: actions/checkout@v4
       with:
         submodules: true
