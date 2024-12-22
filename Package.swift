@@ -16,17 +16,22 @@ let package = Package(
         .target(
             name: "ManifoldCPP",
             dependencies: ["Clipper2"],
-            path: "Libraries/manifold-wrapped",
-            exclude: ["manifold/src/CMakeLists.txt", "manifold/src/meshIO"],
-            sources: ["manifold/src", "wrapper.cpp"],
-            publicHeadersPath: "include",
+            path: "Libraries/manifold",
+            exclude: ["src/CMakeLists.txt", "src/meshIO"],
+            sources: ["src"],
             cxxSettings: [
                 .define("MANIFOLD_PAR", to: "-1")
             ]
         ),
         .target(
-            name: "Manifold",
+            name: "ManifoldExtras",
             dependencies: ["ManifoldCPP"],
+            path: "Libraries/manifold-extras",
+            sources: ["src"]
+        ),
+        .target(
+            name: "Manifold",
+            dependencies: ["ManifoldCPP", "ManifoldExtras"],
             swiftSettings: [.interoperabilityMode(.Cxx)]
         ),
         .executableTarget(

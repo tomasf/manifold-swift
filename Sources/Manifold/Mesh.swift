@@ -1,4 +1,5 @@
 import ManifoldCPP
+import ManifoldExtras
 
 public struct Mesh {
     internal let mesh: manifold.Manifold
@@ -115,6 +116,12 @@ public extension Mesh {
     
     func hull() -> Self {
         Self(mesh.Hull())
+    }
+
+    func warp(_ function: @escaping (any Vector3) -> any Vector3) -> Mesh {
+        Self(warpManifold(mesh, { v in
+            function(v).vec3
+        }))
     }
 }
 
