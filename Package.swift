@@ -26,8 +26,7 @@ let package = Package(
         .target(
             name: "ManifoldExtras",
             dependencies: ["ManifoldCPP"],
-            path: "Libraries/manifold-extras",
-            sources: ["src"]
+            path: "Libraries/manifold-extras"
         ),
         .target(
             name: "Manifold",
