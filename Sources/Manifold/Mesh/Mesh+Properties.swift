@@ -29,4 +29,8 @@ public extension Mesh {
     var volume: Double {
         mesh.Volume()
     }
+
+    var tolerance: Double {
+        mesh.GetTolerance()
+    }
 }

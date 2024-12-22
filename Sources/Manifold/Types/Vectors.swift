@@ -13,6 +13,8 @@ public protocol Vector2 {
 
 internal extension Vector3 {
     var vec3: manifold.vec3 { .init(x, y, z) }
+
+    var values: [Double] { [x, y, z] }
 }
 
 internal extension Vector2 {

@@ -21,6 +21,14 @@ public extension Mesh {
     func refine(edgeLength: Double) -> Mesh {
         Self(mesh.RefineToLength(edgeLength))
     }
+
+    func refine(tolerance: Double) -> Mesh {
+        Self(mesh.RefineToTolerance(tolerance))
+    }
+
+    func settingTolerance(_ tolerance: Double) -> Mesh {
+        Self(mesh.SetTolerance(tolerance))
+    }
 }
 
 public extension Mesh {

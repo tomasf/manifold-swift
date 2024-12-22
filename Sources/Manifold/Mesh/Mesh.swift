@@ -9,7 +9,11 @@ public struct Mesh {
         self.mesh = mesh
     }
 
-    func meshGL() -> any MeshGL {
-        mesh.GetMeshGL64()
+    init(_ meshGL: MeshGL) {
+        self.init(manifold.Manifold(meshGL.meshGL))
+    }
+
+    func meshGL(normalIndex: Int = -1) -> MeshGL {
+        MeshGL(meshGL: mesh.GetMeshGL64(Int32(normalIndex)))
     }
 }
