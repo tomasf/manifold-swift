@@ -21,7 +21,7 @@ extension manifold.MeshGL64: MeshData {
     public var triangles: [any Triangle] {
         (0..<NumTri()).map {
             let tri = GetTriVerts(Int($0))
-            return VertexIndices(a: tri[0], b: tri[1], c: tri[2], faceID: faceID[Int($0)])
+            return VertexIndices(a: .init(tri[0]), b: .init(tri[1]), c: .init(tri[2]), faceID: .init(faceID[Int($0)]))
         }
     }
     
