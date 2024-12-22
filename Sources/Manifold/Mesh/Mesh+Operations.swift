@@ -10,10 +10,6 @@ public extension Mesh {
         Self(mesh.Boolean(other.mesh, op.manifoldOp))
     }
 
-    func hull() -> Self {
-        Self(mesh.Hull())
-    }
-
     func warp(_ function: @escaping (any Vector3) -> any Vector3) -> Mesh {
         Self(manifold.warp(mesh) { function($0).vec3 })
     }
@@ -24,6 +20,20 @@ public extension Mesh {
 
     func refine(edgeLength: Double) -> Mesh {
         Self(mesh.RefineToLength(edgeLength))
+    }
+}
+
+public extension Mesh {
+    func hull() -> Self {
+        Self(mesh.Hull())
+    }
+
+    static func hull(_ meshes: [Mesh]) -> Self {
+        Self(manifold.Manifold.Hull(.init(meshes.map(\.mesh))))
+    }
+
+    static func hull(_ points: [any Vector3]) -> Self {
+        Self(manifold.Manifold.Hull(.init(points.map(\.vec3))))
     }
 }
 
