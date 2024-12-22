@@ -12,7 +12,7 @@ public struct MeshGL {
         var meshGL = manifold.MeshGL64()
         meshGL.numProp = 3
         meshGL.vertProperties = .init(vertices.flatMap(\.values))
-        meshGL.triVerts = .init(triangles.flatMap(\.indices))
+        meshGL.triVerts = .init(triangles.flatMap(\.indices).map { .init($0) })
         self.meshGL = meshGL
     }
 
