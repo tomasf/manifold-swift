@@ -9,7 +9,7 @@ public struct Mesh {
         self.mesh = mesh
     }
 
-    func meshData() -> any MeshGL {
+    func meshGL() -> any MeshGL {
         mesh.GetMeshGL64()
     }
 }
