@@ -1,15 +1,7 @@
 import Foundation
 import ManifoldCPP
 
-public protocol Triangle {
-    typealias VertexIndex = UInt64
-    var a: VertexIndex { get }
-    var b: VertexIndex { get }
-    var c: VertexIndex { get }
-    var faceID: UInt64 { get }
-}
-
-public protocol MeshData {
+public protocol MeshGL {
     var triangles: [Triangle] { get }
     var vertices: [Vector3] { get }
 
@@ -17,18 +9,13 @@ public protocol MeshData {
     var originalIDs: [Mesh.OriginalID: IndexSet] { get }
 }
 
-extension manifold.MeshGL64: MeshData {
-    public var triangles: [any Triangle] {
-        (0..<NumTri()).map {
-            let tri = GetTriVerts(Int($0))
-            return VertexIndices(a: .init(tri[0]), b: .init(tri[1]), c: .init(tri[2]), faceID: .init(faceID[Int($0)]))
-        }
+extension manifold.MeshGL64: MeshGL {
+    public var triangles: [Triangle] {
+        (0..<NumTri()).map { Triangle(meshGL: self, index: Int($0)) }
     }
     
     public var vertices: [any Vector3] {
-        (0..<NumVert()).map {
-            GetVertPos(Int($0))
-        }
+        (0..<Int(NumVert())).map(GetVertPos)
     }
 
     public var originalIDs: [Mesh.OriginalID: IndexSet] {
@@ -40,9 +27,19 @@ extension manifold.MeshGL64: MeshData {
     }
 }
 
-struct VertexIndices: Triangle {
+public struct Triangle {
+    typealias VertexIndex = UInt64
+
     let a: VertexIndex
     let b: VertexIndex
     let c: VertexIndex
     let faceID: UInt64
+
+    internal init(meshGL: manifold.MeshGL64, index: Int) {
+        let verts = meshGL.GetTriVerts(index)
+        a = .init(verts[0])
+        b = .init(verts[1])
+        c = .init(verts[2])
+        faceID = .init(meshGL.faceID[index])
+    }
 }

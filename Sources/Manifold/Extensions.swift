@@ -1,6 +1,6 @@
 import Foundation
 
-extension Sequence {
+internal extension Sequence {
     func paired() -> [(Element, Element)] {
         .init(zip(self, dropFirst()))
     }
