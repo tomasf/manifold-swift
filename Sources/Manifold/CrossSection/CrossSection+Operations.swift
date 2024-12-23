@@ -9,6 +9,10 @@ public extension CrossSection {
         Self(crossSection.Boolean(other.crossSection, op.manifoldOp))
     }
 
+    func warp(_ function: @escaping (any Vector2) -> any Vector2) -> Self {
+        Self(manifold.warp(crossSection) { function($0).vec2 })
+    }
+
     func hull() -> Self {
         Self(crossSection.Hull())
     }
