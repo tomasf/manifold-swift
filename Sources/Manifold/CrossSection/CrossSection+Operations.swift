@@ -13,12 +13,22 @@ public extension CrossSection {
         Self(manifold.warp(crossSection) { function($0).vec2 })
     }
 
+    func offset(amount: Double, joinType: JoinType, miterLimit: Double, circularSegments: Int? = nil) -> Self {
+        Self(crossSection.Offset(amount, joinType.manifoldType, miterLimit, Int32(circularSegments ?? 0)))
+    }
+}
+
+public extension CrossSection {
     func hull() -> Self {
         Self(crossSection.Hull())
     }
 
-    func offset(amount: Double, joinType: JoinType, miterLimit: Double, circularSegments: Int? = nil) -> Self {
-        Self(crossSection.Offset(amount, joinType.manifoldType, miterLimit, Int32(circularSegments ?? 0)))
+    static func hull(_ crossSections: [CrossSection]) -> Self {
+        Self(manifold.CrossSection.Hull(.init(crossSections.map(\.crossSection))))
+    }
+
+    static func hull(_ points: [any Vector2]) -> Self {
+        Self(manifold.CrossSection.Hull(.init(points.map(\.vec2))))
     }
 }
 
