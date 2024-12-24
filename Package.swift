@@ -32,12 +32,7 @@ let package = Package(
             name: "Manifold",
             dependencies: ["ManifoldCPP", "ManifoldExtras"],
             swiftSettings: [.interoperabilityMode(.Cxx)]
-        ),
-        .executableTarget(
-            name: "test",
-            dependencies: ["Manifold"],
-            swiftSettings: [.interoperabilityMode(.Cxx)]
-        ),
+        )
     ],
     cxxLanguageStandard: .cxx17
 )
