@@ -18,6 +18,10 @@ public extension CrossSection {
     func offset(amount: Double, joinType: JoinType, miterLimit: Double, circularSegments: Int? = nil) -> Self {
         Self(crossSection.Offset(amount, joinType.manifoldType, miterLimit, Int32(circularSegments ?? 0)))
     }
+
+    func simplify(epsilon: Double = 1e-6) -> CrossSection {
+        Self(crossSection.Simplify(epsilon))
+    }
 }
 
 public extension CrossSection {

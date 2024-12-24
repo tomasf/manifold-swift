@@ -29,18 +29,6 @@ public extension CrossSection {
         case positive
         case negative
 
-        internal init(_ primitive: manifold.CrossSection.FillRule) {
-            switch primitive {
-            case .EvenOdd: self = .evenOdd
-            case .NonZero: self = .nonZero
-            case .Positive: self = .positive
-            case .Negative: self = .negative
-            @unknown default:
-                assertionFailure("Unknown fill rule")
-                self = .nonZero
-            }
-        }
-
         var primitive: manifold.CrossSection.FillRule {
             switch self {
             case .evenOdd: return .EvenOdd
