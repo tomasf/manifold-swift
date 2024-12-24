@@ -10,7 +10,9 @@ public extension CrossSection {
     }
 
     func warp(_ function: @escaping (any Vector2) -> any Vector2) -> Self {
-        Self(manifold.warp(crossSection) { function($0).vec2 })
+        Self(manifold.warp(crossSection) {
+            $0.pointee = function($0.pointee).vec2
+        })
     }
 
     func offset(amount: Double, joinType: JoinType, miterLimit: Double, circularSegments: Int? = nil) -> Self {

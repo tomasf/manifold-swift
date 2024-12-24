@@ -11,7 +11,9 @@ public extension Mesh {
     }
 
     func warp(_ function: @escaping (any Vector3) -> any Vector3) -> Mesh {
-        Self(manifold.warp(mesh) { function($0).vec3 })
+        Self(manifold.warp(mesh) {
+            $0.pointee = function($0.pointee).vec3
+        })
     }
 
     func refine(piecesPerEdge: Int) -> Mesh {

@@ -4,16 +4,14 @@
 
 namespace manifold {
 
-manifold::Manifold warp(manifold::Manifold mesh, manifold::vec3(^block)(manifold::vec3)) {
-    return mesh.Warp([&block](manifold::vec3& v) {
-        v = block(v);
-    });
+// These thin methods exist to bridge between Swift closures and std::function, which does not work automatically yet
+
+manifold::Manifold warp(manifold::Manifold mesh, void(^block)(manifold::vec3&)) {
+    return mesh.Warp(block);
 }
 
-manifold::CrossSection warp(manifold::CrossSection crossSection, manifold::vec2(^block)(manifold::vec2)) {
-    return crossSection.Warp([&block](manifold::vec2& v) {
-        v = block(v);
-    });
+manifold::CrossSection warp(manifold::CrossSection crossSection, void(^block)(manifold::vec2&)) {
+    return crossSection.Warp(block);
 }
 
 }
