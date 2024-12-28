@@ -25,8 +25,8 @@ public struct MeshGL {
         }
     }
 
-    public var faceIDs: [UInt64] {
-        .init(meshGL.faceID)
+    public var faceIDs: [Int] {
+        meshGL.faceID.map { Int($0) }
     }
 
     public var vertices: [any Vector3] {

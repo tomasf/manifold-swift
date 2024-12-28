@@ -27,6 +27,7 @@ let package = Package(
                 .define("_XOPEN_SOURCE", to: "700"),
                 .define("_DARWIN_C_SOURCE"),
                 .define("__TBB_DYNAMIC_LOAD_ENABLED", to: "0"),
+                .unsafeFlags(["-mwaitpkg"], .when(platforms: [.linux]))
             ]
         ),
         .target(
