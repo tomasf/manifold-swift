@@ -4,3 +4,7 @@
 [submodule "Libraries/clipper2"]
 	path = Libraries/clipper2
 	url = https://github.com/AngusJohnson/Clipper2
+[submodule "Libraries/oneTBB"]
+	path = Libraries/oneTBB
+	url = https://github.com/tomasf/oneTBB.git
+	fetchrecursesubmodules = true
