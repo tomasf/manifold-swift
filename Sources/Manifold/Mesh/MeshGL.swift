@@ -1,5 +1,6 @@
 import Foundation
 import ManifoldCPP
+import ManifoldBridge
 
 public struct MeshGL {
     internal let meshGL: manifold.MeshGL64
@@ -17,7 +18,15 @@ public struct MeshGL {
     }
 
     public var triangles: [Triangle] {
-        (0..<meshGL.NumTri()).map { Triangle(meshGL: self, index: Int($0)) }
+        let meshGL = self.meshGL
+        return (0..<meshGL.NumTri()).map {
+            let verts = meshGL.GetTriVerts(Int($0))
+            return Triangle(Int(verts[0]), Int(verts[1]), Int(verts[2]))
+        }
+    }
+
+    public var faceIDs: [UInt64] {
+        .init(meshGL.faceID)
     }
 
     public var vertices: [any Vector3] {
@@ -34,30 +43,3 @@ public struct MeshGL {
     }
 }
 
-public struct Triangle {
-    public typealias VertexIndex = UInt64
-
-    public let a: VertexIndex
-    public let b: VertexIndex
-    public let c: VertexIndex
-    public let faceID: UInt64
-
-    public init(a: VertexIndex, b: VertexIndex, c: VertexIndex) {
-        self.a = a
-        self.b = b
-        self.c = c
-        faceID = 0
-    }
-
-    internal init(meshGL: MeshGL, index: Int) {
-        let verts = meshGL.meshGL.GetTriVerts(index)
-        a = .init(verts[0])
-        b = .init(verts[1])
-        c = .init(verts[2])
-        faceID = .init(meshGL.meshGL.faceID[index])
-    }
-
-    internal var indices: [VertexIndex] {
-        [a, b, c]
-    }
-}

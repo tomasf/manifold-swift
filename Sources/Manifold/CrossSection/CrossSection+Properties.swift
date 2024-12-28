@@ -5,7 +5,7 @@ public extension CrossSection {
         crossSection.IsEmpty()
     }
 
-    var bounds: (any Vector2, any Vector2) {
+    var bounds: (min: any Vector2, max: any Vector2) {
         let box = crossSection.Bounds()
         return (box.min, box.max)
     }

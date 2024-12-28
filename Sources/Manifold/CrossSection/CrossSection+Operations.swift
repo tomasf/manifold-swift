@@ -1,4 +1,6 @@
+import Foundation
 import ManifoldCPP
+import ManifoldBridge
 
 public extension CrossSection {
     static func boolean(_ op: BooleanOperation, with children: [CrossSection]) -> Self {
@@ -10,7 +12,7 @@ public extension CrossSection {
     }
 
     func warp(_ function: @escaping (any Vector2) -> any Vector2) -> Self {
-        Self(manifold.warp(crossSection) {
+        Self(bridge.Warp(crossSection) {
             $0.pointee = function($0.pointee).vec2
         })
     }
@@ -43,23 +45,7 @@ public extension CrossSection {
         .init(manifold.Manifold.Extrude(crossSection.ToPolygons(), height, Int32(divisions), twistDegrees, scaleTop?.vec2 ?? .init(1, 1)))
     }
 
-    func revolve(degrees: Double, circularSegments: Int? = nil) -> Mesh {
-        .init(manifold.Manifold.Revolve(crossSection.ToPolygons(), Int32(circularSegments ?? 0), degrees))
-    }
-}
-
-public extension CrossSection {
-    enum JoinType: Int {
-        case miter
-        case round
-        case square
-
-        internal var manifoldType: manifold.CrossSection.JoinType {
-            switch self {
-            case .miter: return .Miter
-            case .round: return .Round
-            case .square: return .Square
-            }
-        }
+    func revolve(degrees: Double, circularSegments: Int) -> Mesh {
+        .init(manifold.Manifold.Revolve(crossSection.ToPolygons(), Int32(circularSegments), degrees))
     }
 }

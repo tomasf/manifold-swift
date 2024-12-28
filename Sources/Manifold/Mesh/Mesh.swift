@@ -13,7 +13,7 @@ public struct Mesh {
 public extension Mesh {
     init(_ meshGL: MeshGL) throws(Error) {
         self.init(manifold.Manifold(meshGL.meshGL))
-        if isEmpty, let error = self.error {
+        if isEmpty, let error = self.status {
             throw error
         }
     }
@@ -22,7 +22,7 @@ public extension Mesh {
         MeshGL(meshGL: mesh.GetMeshGL64(Int32(normalIndex)))
     }
 
-    private var error: Error? {
+    var status: Error? {
         Error(mesh.Status())
     }
 

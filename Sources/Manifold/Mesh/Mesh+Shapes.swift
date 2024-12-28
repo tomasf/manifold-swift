@@ -13,11 +13,11 @@ public extension Mesh {
         Self(manifold.Manifold.Sphere(radius, Int32(segmentCount)))
     }
 
-    static func cylinder(height: Double, bottomRadius: Double, topRadius: Double, segmentCount: Int) -> Self {
-        Self(manifold.Manifold.Cylinder(height, bottomRadius, topRadius, Int32(segmentCount)))
+    static func cylinder(height: Double, bottomRadius: Double, topRadius: Double, segmentCount: Int, center: Bool = false) -> Self {
+        Self(manifold.Manifold.Cylinder(height, bottomRadius, topRadius, Int32(segmentCount), center))
     }
 
-    static func cube(size: any Vector3) -> Self {
-        Self(manifold.Manifold.Cube(size.vec3))
+    static func cube(size: any Vector3, center: Bool = false) -> Self {
+        Self(manifold.Manifold.Cube(size.vec3, center))
     }
 }

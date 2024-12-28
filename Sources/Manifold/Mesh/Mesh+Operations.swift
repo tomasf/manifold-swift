@@ -1,5 +1,5 @@
 import ManifoldCPP
-import ManifoldExtras
+import ManifoldBridge
 
 public extension Mesh {
     static func boolean(_ op: BooleanOperation, with children: [Mesh]) -> Self {
@@ -11,7 +11,7 @@ public extension Mesh {
     }
 
     func warp(_ function: @escaping (any Vector3) -> any Vector3) -> Mesh {
-        Self(manifold.warp(mesh) {
+        Self(bridge.Warp(mesh) {
             $0.pointee = function($0.pointee).vec3
         })
     }

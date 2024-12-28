@@ -5,7 +5,7 @@ public extension Mesh {
         mesh.IsEmpty()
     }
 
-    var bounds: (any Vector3, any Vector3) {
+    var bounds: (min: any Vector3, max: any Vector3) {
         let box = mesh.BoundingBox()
         return (box.min, box.max)
     }
