@@ -19,8 +19,7 @@ public extension CrossSection {
     }
 
     init(composing crossSections: [CrossSection]) {
-        fatalError("Fix this initializer after fix PR is merged")
-        //self = Self(manifold.CrossSection.Compose(.init(crossSections.map(\.crossSection))))
+        self = Self(manifold.CrossSection.Compose(.init(crossSections.map(\.crossSection))))
     }
 
     func decompose() -> [Self] {
