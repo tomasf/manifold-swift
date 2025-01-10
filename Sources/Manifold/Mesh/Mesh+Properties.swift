@@ -33,4 +33,28 @@ public extension Mesh {
     var tolerance: Double {
         mesh.GetTolerance()
     }
+
+    var propertyCount: Int {
+        mesh.NumProp()
+    }
+
+    var propertyVertexCount: Int {
+        mesh.NumPropVert()
+    }
+
+    var genus: Int {
+        Int(mesh.Genus())
+    }
+
+    var matchesTriangleNormals: Bool {
+        mesh.MatchesTriNormals()
+    }
+
+    var degenerateTriangleCount: Int {
+        mesh.NumDegenerateTris()
+    }
+
+    var epsilon: Double {
+        mesh.GetEpsilon()
+    }
 }

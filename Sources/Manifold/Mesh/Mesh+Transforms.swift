@@ -16,4 +16,8 @@ public extension Mesh {
     func rotate(_ rotation: any Vector3) -> Self {
         Self(mesh.Rotate(rotation.x, rotation.y, rotation.z))
     }
+
+    func mirror(_ normal: any Vector3) -> Self {
+        Self(mesh.Mirror(normal.vec3))
+    }
 }

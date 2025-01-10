@@ -15,22 +15,6 @@ public extension Mesh {
             $0.pointee = function($0.pointee).vec3
         })
     }
-
-    func refine(piecesPerEdge: Int) -> Mesh {
-        Self(mesh.Refine(Int32(piecesPerEdge)))
-    }
-
-    func refine(edgeLength: Double) -> Mesh {
-        Self(mesh.RefineToLength(edgeLength))
-    }
-
-    func refine(tolerance: Double) -> Mesh {
-        Self(mesh.RefineToTolerance(tolerance))
-    }
-
-    func settingTolerance(_ tolerance: Double) -> Mesh {
-        Self(mesh.SetTolerance(tolerance))
-    }
 }
 
 public extension Mesh {
@@ -72,4 +56,3 @@ public extension Mesh {
         CrossSection(manifold.CrossSection(mesh.Slice(z), .Positive))
     }
 }
-

@@ -1,8 +1,8 @@
 import ManifoldCPP
 
 public extension Mesh {
-    static func compose(meshes: [Mesh]) -> Mesh {
-        Self(manifold.Manifold.Compose(.init(meshes.map(\.mesh))))
+    init(composing meshes: [Mesh]) {
+        self = Self(manifold.Manifold.Compose(.init(meshes.map(\.mesh))))
     }
 
     func decompose() -> [Mesh] {
@@ -20,5 +20,9 @@ public extension Mesh {
     
     func asOriginal() -> Mesh {
         Mesh(mesh.AsOriginal())
+    }
+
+    static func reserveOriginalIDs(_ count: Int) -> Int {
+        Int(manifold.Manifold.ReserveIDs(.init(count)))
     }
 }

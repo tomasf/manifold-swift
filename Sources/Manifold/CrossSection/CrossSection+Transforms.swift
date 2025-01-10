@@ -16,4 +16,8 @@ public extension CrossSection {
     func rotate(_ degrees: Double) -> Self {
         Self(crossSection.Rotate(degrees))
     }
+
+    func mirror(_ axis: any Vector2) -> Self {
+        Self(crossSection.Mirror(axis.vec2))
+    }
 }

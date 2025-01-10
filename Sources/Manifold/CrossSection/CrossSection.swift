@@ -7,17 +7,24 @@ public struct CrossSection {
     internal init(_ crossSection: manifold.CrossSection) {
         self.crossSection = crossSection
     }
+}
 
-    public init(polygons: [Polygon], fillRule: FillRule) {
+public extension CrossSection {
+    init(polygons: [Polygon], fillRule: FillRule) {
         self.init(manifold.CrossSection(polygons.manifoldPolygons, fillRule.manifoldFillRule))
     }
 
-    public func decompose() -> [Self] {
-        crossSection.Decompose().map(CrossSection.init)
+    func polygons() -> [Polygon] {
+        crossSection.ToPolygons().map { Polygon($0) }
     }
 
-    public func polygons() -> [Polygon] {
-        crossSection.ToPolygons().map { Polygon($0) }
+    init(composing crossSections: [CrossSection]) {
+        fatalError("Fix this initializer after fix PR is merged")
+        //self = Self(manifold.CrossSection.Compose(.init(crossSections.map(\.crossSection))))
+    }
+
+    func decompose() -> [Self] {
+        crossSection.Decompose().map(CrossSection.init)
     }
 }
 

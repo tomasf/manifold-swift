@@ -18,12 +18,20 @@ public extension Mesh {
         }
     }
 
-    func meshGL(normalIndex: Int = -1) -> MeshGL {
-        MeshGL(meshGL: mesh.GetMeshGL64(Int32(normalIndex)))
+    func meshGL(normalChannelIndex: Int = -1) -> MeshGL {
+        MeshGL(meshGL: mesh.GetMeshGL64(Int32(normalChannelIndex)))
     }
 
     var status: Error? {
         Error(mesh.Status())
+    }
+
+    func minimumGap(to other: Mesh, searchLength: Double) -> Double {
+        mesh.MinGap(other.mesh, searchLength)
+    }
+
+    func overlapCount(with other: Mesh) -> Int {
+        mesh.NumOverlaps(other.mesh)
     }
 
     enum Error: Swift.Error {
