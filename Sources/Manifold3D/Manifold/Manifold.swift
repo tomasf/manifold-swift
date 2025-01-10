@@ -1,8 +1,6 @@
 import ManifoldCPP
 
-// Mesh corresponds to the "Manifold" type.
-// A new name was chosen to prevent it from conflicting with the module name.
-public struct Mesh {
+public struct Manifold {
     internal let mesh: manifold.Manifold
 
     internal init(_ mesh: manifold.Manifold) {
@@ -10,7 +8,7 @@ public struct Mesh {
     }
 }
 
-public extension Mesh {
+public extension Manifold {
     init(_ meshGL: MeshGL) throws(Error) {
         self.init(manifold.Manifold(meshGL.meshGL))
         if isEmpty, let error = self.status {
@@ -26,11 +24,11 @@ public extension Mesh {
         Error(mesh.Status())
     }
 
-    func minimumGap(to other: Mesh, searchLength: Double) -> Double {
+    func minimumGap(to other: Manifold, searchLength: Double) -> Double {
         mesh.MinGap(other.mesh, searchLength)
     }
 
-    func overlapCount(with other: Mesh) -> Int {
+    func overlapCount(with other: Manifold) -> Int {
         mesh.NumOverlaps(other.mesh)
     }
 

@@ -1,28 +1,28 @@
 import ManifoldCPP
 import ManifoldBridge
 
-public extension Mesh {
-    static func boolean(_ op: BooleanOperation, with children: [Mesh]) -> Self {
+public extension Manifold {
+    static func boolean(_ op: BooleanOperation, with children: [Manifold]) -> Self {
         Self(manifold.Manifold.BatchBoolean(.init(children.map(\.mesh)), op.manifoldOp))
     }
 
-    func boolean(_ op: BooleanOperation, with other: Mesh) -> Self {
+    func boolean(_ op: BooleanOperation, with other: Manifold) -> Self {
         Self(mesh.Boolean(other.mesh, op.manifoldOp))
     }
 
-    func warp(_ function: @escaping (any Vector3) -> any Vector3) -> Mesh {
+    func warp(_ function: @escaping (any Vector3) -> any Vector3) -> Manifold {
         Self(bridge.Warp(mesh) {
             $0.pointee = function($0.pointee).vec3
         })
     }
 }
 
-public extension Mesh {
+public extension Manifold {
     func hull() -> Self {
         Self(mesh.Hull())
     }
 
-    static func hull(_ meshes: [Mesh]) -> Self {
+    static func hull(_ meshes: [Manifold]) -> Self {
         Self(manifold.Manifold.Hull(.init(meshes.map(\.mesh))))
     }
 
@@ -31,23 +31,23 @@ public extension Mesh {
     }
 }
 
-public extension Mesh {
-    func split(by cutter: Mesh) -> (Mesh, Mesh) {
+public extension Manifold {
+    func split(by cutter: Manifold) -> (Manifold, Manifold) {
         let results = mesh.Split(cutter.mesh)
-        return (Mesh(results.first), Mesh(results.second))
+        return (Manifold(results.first), Manifold(results.second))
     }
 
-    func split(by plane: Vector3, originOffset: Double) -> (Mesh, Mesh) {
+    func split(by plane: Vector3, originOffset: Double) -> (Manifold, Manifold) {
         let results = mesh.SplitByPlane(plane.vec3, originOffset)
-        return (Mesh(results.first), Mesh(results.second))
+        return (Manifold(results.first), Manifold(results.second))
     }
 
-    func trim(by plane: Vector3, originOffset: Double) -> Mesh {
-        Mesh(mesh.TrimByPlane(plane.vec3, originOffset))
+    func trim(by plane: Vector3, originOffset: Double) -> Manifold {
+        Manifold(mesh.TrimByPlane(plane.vec3, originOffset))
     }
 }
 
-public extension Mesh {
+public extension Manifold {
     func projection() -> CrossSection {
         CrossSection(manifold.CrossSection(mesh.Project(), .Positive))
     }

@@ -2,7 +2,7 @@ import Foundation
 import ManifoldCPP
 import ManifoldBridge
 
-public extension Mesh {
+public extension Manifold {
     init(meshGL: MeshGL, smoothEdges: [MeshGL.EdgeReference: Double]) {
         self = Self(manifold.Manifold.Smooth(meshGL.meshGL, .init(smoothEdges.map {
             manifold.Smoothness(halfedge: $0.key.index, smoothness: $0.value)
@@ -18,20 +18,20 @@ public extension Mesh {
     }
 }
 
-public extension Mesh {
-    func refine(piecesPerEdge: Int) -> Mesh {
+public extension Manifold {
+    func refine(piecesPerEdge: Int) -> Manifold {
         Self(mesh.Refine(Int32(piecesPerEdge)))
     }
 
-    func refine(edgeLength: Double) -> Mesh {
+    func refine(edgeLength: Double) -> Manifold {
         Self(mesh.RefineToLength(edgeLength))
     }
 
-    func refine(tolerance: Double) -> Mesh {
+    func refine(tolerance: Double) -> Manifold {
         Self(mesh.RefineToTolerance(tolerance))
     }
 
-    func settingTolerance(_ tolerance: Double) -> Mesh {
+    func settingTolerance(_ tolerance: Double) -> Manifold {
         Self(mesh.SetTolerance(tolerance))
     }
 }

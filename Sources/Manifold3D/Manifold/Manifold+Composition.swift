@@ -1,16 +1,16 @@
 import ManifoldCPP
 
-public extension Mesh {
-    init(composing meshes: [Mesh]) {
+public extension Manifold {
+    init(composing meshes: [Manifold]) {
         self = Self(manifold.Manifold.Compose(.init(meshes.map(\.mesh))))
     }
 
-    func decompose() -> [Mesh] {
-        mesh.Decompose().map(Mesh.init)
+    func decompose() -> [Manifold] {
+        mesh.Decompose().map(Manifold.init)
     }
 }
 
-public extension Mesh {
+public extension Manifold {
     typealias OriginalID = Int
     
     var originalID: OriginalID? {
@@ -18,8 +18,8 @@ public extension Mesh {
         return id == -1 ? nil : Int(id)
     }
     
-    func asOriginal() -> Mesh {
-        Mesh(mesh.AsOriginal())
+    func asOriginal() -> Manifold {
+        Manifold(mesh.AsOriginal())
     }
 
     static func reserveOriginalIDs(_ count: Int) -> Int {

@@ -56,7 +56,7 @@ public extension MeshGL {
     }
 
     // Maps original IDs to sets of triangle indices
-    var originalIDs: [Mesh.OriginalID: IndexSet] {
+    var originalIDs: [Manifold.OriginalID: IndexSet] {
         let ranges = meshGL.runIndex.paired().map { Int($0 / 3)..<Int($1 / 3) }
         return ranges.enumerated().reduce(into: [:]) { result, item in
             let originalID = Int(meshGL.runOriginalID[item.offset])

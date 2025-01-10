@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "manifold-swift",
     products: [
-        .library(name: "Manifold", targets: ["Manifold"]),
+        .library(name: "Manifold", targets: ["Manifold3D"]),
     ],
     targets: [
         .target(
@@ -46,7 +46,7 @@ let package = Package(
             path: "Libraries/manifold-bridge"
         ),
         .target(
-            name: "Manifold",
+            name: "Manifold3D",
             dependencies: ["ManifoldCPP", "ManifoldBridge"],
             swiftSettings: [.interoperabilityMode(.Cxx)]
         )

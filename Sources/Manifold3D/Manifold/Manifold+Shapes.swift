@@ -1,7 +1,7 @@
 import ManifoldCPP
 import ManifoldBridge
 
-public extension Mesh {
+public extension Manifold {
     static var empty: Self {
         Self(manifold.Manifold())
     }

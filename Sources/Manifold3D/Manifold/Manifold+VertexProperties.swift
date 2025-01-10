@@ -2,7 +2,7 @@ import Foundation
 import ManifoldCPP
 import ManifoldBridge
 
-public extension Mesh {
+public extension Manifold {
     func setProperties(channelCount: Int, getter function: @escaping (_ position: any Vector3, _ oldProperties: [Double]) -> [Double]) -> Self {
         let oldCount = propertyCount
         return Self(bridge.SetProperties(mesh, .init(channelCount)) { newProps, position, oldProps in

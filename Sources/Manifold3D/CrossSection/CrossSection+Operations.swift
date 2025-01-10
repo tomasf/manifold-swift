@@ -41,11 +41,11 @@ public extension CrossSection {
 }
 
 public extension CrossSection {
-    func extrude(height: Double, divisions: Int = 0, twist twistDegrees: Double = 0, scaleTop: (any Vector2)? = nil) -> Mesh {
+    func extrude(height: Double, divisions: Int = 0, twist twistDegrees: Double = 0, scaleTop: (any Vector2)? = nil) -> Manifold {
         .init(manifold.Manifold.Extrude(crossSection.ToPolygons(), height, Int32(divisions), twistDegrees, scaleTop?.vec2 ?? .init(1, 1)))
     }
 
-    func revolve(degrees: Double, circularSegments: Int) -> Mesh {
+    func revolve(degrees: Double, circularSegments: Int) -> Manifold {
         .init(manifold.Manifold.Revolve(crossSection.ToPolygons(), Int32(circularSegments), degrees))
     }
 }

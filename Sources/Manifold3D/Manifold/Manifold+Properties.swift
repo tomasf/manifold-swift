@@ -1,6 +1,6 @@
 import ManifoldCPP
 
-public extension Mesh {
+public extension Manifold {
     var isEmpty: Bool {
         mesh.IsEmpty()
     }
