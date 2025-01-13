@@ -1,10 +1,10 @@
-[submodule "Sources/manifold"]
-	path = Libraries/manifold
+[submodule "manifold"]
+	path = External/manifold
 	url = https://github.com/elalish/manifold.git
-[submodule "Libraries/clipper2"]
-	path = Libraries/clipper2
+[submodule "clipper2"]
+	path = External/clipper2
 	url = https://github.com/AngusJohnson/Clipper2
-[submodule "Libraries/oneTBB"]
-	path = Libraries/oneTBB
+[submodule "oneTBB"]
+	path = External/oneTBB
 	url = https://github.com/tomasf/oneTBB.git
 	fetchrecursesubmodules = true

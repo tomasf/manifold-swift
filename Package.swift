@@ -2,6 +2,9 @@
 
 import PackageDescription
 
+// If you get "invalid custom path" errors, you probably forgot to initialize submodules.
+// git submodule update --init --recursive
+
 let package = Package(
     name: "manifold-swift",
     products: [
@@ -10,12 +13,12 @@ let package = Package(
     targets: [
         .target(
             name: "Clipper2",
-            path: "Libraries/clipper2/CPP/Clipper2Lib",
+            path: "External/clipper2/CPP/Clipper2Lib",
             sources: ["src"]
         ),
         .target(
             name: "oneTBB",
-            path: "Libraries/oneTBB",
+            path: "External/oneTBB",
             exclude: [
                 "examples",
                 "src/tbb/CMakeLists.txt",
@@ -33,7 +36,7 @@ let package = Package(
         .target(
             name: "ManifoldCPP",
             dependencies: ["Clipper2", "oneTBB"],
-            path: "Libraries/manifold",
+            path: "External/manifold",
             exclude: ["src/CMakeLists.txt", "src/meshIO"],
             sources: ["src"],
             cxxSettings: [
@@ -42,8 +45,7 @@ let package = Package(
         ),
         .target(
             name: "ManifoldBridge",
-            dependencies: ["ManifoldCPP"],
-            path: "Libraries/manifold-bridge"
+            dependencies: ["ManifoldCPP"]
         ),
         .target(
             name: "Manifold3D",
