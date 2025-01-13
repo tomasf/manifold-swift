@@ -13,12 +13,14 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-14, ubuntu-latest]
+        os: [macos-14, ubuntu-latest, windows-latest]
 
     runs-on: ${{ matrix.os }}
 
     steps:
     - uses: SwiftyLab/setup-swift@latest
+      with:
+        development: ${{ matrix.os == 'windows-latest' }}
     - uses: actions/checkout@v4
       with:
         submodules: true
