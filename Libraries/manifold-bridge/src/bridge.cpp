@@ -15,7 +15,7 @@ manifold::CrossSection Warp(const manifold::CrossSection& crossSection, void(^bl
 }
 
 manifold::Manifold SetProperties(const manifold::Manifold manifold, int numProp, void(^block)(double *newProp, manifold::vec3 position, const double *oldProp)) {
-    manifold.SetProperties(numProp, block);
+    return manifold.SetProperties(numProp, block);
 }
 
 manifold::Manifold LevelSet(double(^block)(manifold::vec3),
