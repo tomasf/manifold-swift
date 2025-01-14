@@ -2,11 +2,13 @@
 
 A Swift interface to the [Manifold geometry library](https://github.com/elalish/manifold), for manipulation of solid 3D meshes. 
 
-![CI status](https://github.com/tomasf/manifold-swift/actions/workflows/swift.yml/badge.svg) ![Platforms](https://img.shields.io/badge/Platforms-macOS_%7C_Linux_%7C_Windows-47D?logo=swift&logoColor=white)
+![CI status](https://github.com/tomasf/manifold-swift/actions/workflows/swift.yml/badge.svg) ![Platforms](https://img.shields.io/badge/Platforms-macOS_%7C_iOS_%7C_tvOS_%7C_watchOS_%7C_visionOS_%7C_Linux_%7C_Windows-47D?logo=swift&logoColor=white)
 
-This SPM package includes Manifold, as well as its dependencies Clipper2 and oneTBB as Git submodules, so no additional dependencies are needed beyond the C++ standard library. Manifold-Swift works on macOS, Linux and Windows. The library covers most of the Manifold API, and naming is similar but using Swift conventions.
+This SPM package includes Manifold, as well as its dependencies Clipper2 and oneTBB as Git submodules, so no additional dependencies are needed beyond the C++ standard library. Manifold-Swift covers most of the Manifold API, and naming is similar but using Swift conventions. It works on all Apple platforms as well as Linux and Windows. 
 
-Due to a bug in Swift that isn't fixed in the latest release (as of 2025-01-13, version 6.0.3), the library requires a development snapshot of Swift to build on Windows. Because the library interfaces with C++, you need to enable C++ interoperability when using Manifold-Swift:
+Due to a bug in Swift that isn't fixed in the latest release (as of 2025-01-13, version 6.0.3), the library requires a recent development snapshot of Swift to build on Windows.
+
+Because the library interfaces with C++, you need to enable C++ interoperability:
 
 ```swift
 let package = Package(
