@@ -44,7 +44,7 @@ public extension MeshGL {
     }
 
     var triangleCount: Int {
-        Int(meshGL.NumVert())
+        Int(meshGL.NumTri())
     }
 
     var tolerance: Double {
