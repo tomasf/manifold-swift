@@ -19,8 +19,6 @@ jobs:
 
     steps:
     - uses: SwiftyLab/setup-swift@latest
-      with:
-        development: ${{ matrix.os == 'windows-latest' }}
     - uses: actions/checkout@v4
       with:
         submodules: true
