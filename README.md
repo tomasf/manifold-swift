@@ -6,8 +6,6 @@ A Swift interface to the [Manifold geometry library](https://github.com/elalish/
 
 This SPM package includes Manifold, as well as its dependencies Clipper2 and oneTBB as Git submodules, so no additional dependencies are needed beyond the C++ standard library. Manifold-Swift covers most of the Manifold API, and naming is similar but using Swift conventions. It works on all Apple platforms as well as Linux and Windows. 
 
-Due to a bug in Swift that isn't fixed in the latest release (as of 2025-01-13, version 6.0.3), the library requires a recent development snapshot of Swift to build on Windows.
-
 ## Usage
 
 Add the package as a dependency in your Package.swift (or Xcode project). Because the library interfaces with C++, you need to enable C++ interoperability.
