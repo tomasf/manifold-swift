@@ -1,6 +1,6 @@
 import ManifoldCPP
 
-public enum BooleanOperation {
+public enum BooleanOperation: Hashable, Sendable {
     case union
     case difference
     case intersection

@@ -2,7 +2,7 @@ import Foundation
 import ManifoldCPP
 
 public extension CrossSection {
-    enum FillRule {
+    enum FillRule: Hashable, Sendable {
         case evenOdd
         case nonZero
         case positive
@@ -18,7 +18,7 @@ public extension CrossSection {
         }
     }
 
-    enum JoinType: Int {
+    enum JoinType: Int, Hashable, Sendable {
         case miter
         case round
         case square

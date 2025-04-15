@@ -1,7 +1,7 @@
 import ManifoldCPP
 import Cxx
 
-public struct CrossSection {
+public struct CrossSection: @unchecked Sendable {
     internal let crossSection: manifold.CrossSection
 
     internal init(_ crossSection: manifold.CrossSection) {

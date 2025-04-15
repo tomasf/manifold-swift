@@ -64,7 +64,7 @@ public extension MeshGL {
         }
     }
 
-    struct EdgeReference: Hashable {
+    struct EdgeReference: Hashable, Sendable {
         public let triangleIndex: Int
         public let edgeIndex: Int
 

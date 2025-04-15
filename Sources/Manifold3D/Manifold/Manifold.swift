@@ -1,6 +1,6 @@
 import ManifoldCPP
 
-public struct Manifold {
+public struct Manifold: @unchecked Sendable {
     internal let mesh: manifold.Manifold
 
     internal init(_ mesh: manifold.Manifold) {

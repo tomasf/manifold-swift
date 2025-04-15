@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Triangle {
+public struct Triangle: Hashable, Sendable {
     public typealias VertexIndex = Int
 
     public let a: VertexIndex
