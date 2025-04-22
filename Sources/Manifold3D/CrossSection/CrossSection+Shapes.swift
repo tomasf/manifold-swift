@@ -1,9 +1,7 @@
 import ManifoldCPP
 
 public extension CrossSection {
-    static var empty: Self {
-        Self(manifold.CrossSection())
-    }
+    static let empty = Self(manifold.CrossSection())
 
     static func square(size: any Vector2) -> Self {
         Self(manifold.CrossSection.Square(size.vec2))

@@ -2,9 +2,7 @@ import ManifoldCPP
 import ManifoldBridge
 
 public extension Manifold {
-    static var empty: Self {
-        Self(manifold.Manifold())
-    }
+    static let empty = Self(manifold.Manifold())
 
     static func tetrahedron() -> Self {
         Self(manifold.Manifold.Tetrahedron())
