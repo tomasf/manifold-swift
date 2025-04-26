@@ -10,6 +10,10 @@ public extension Manifold {
         Self(mesh.Boolean(other.mesh, op.manifoldOp))
     }
 
+    func simplify(epsilon: Double) -> Self {
+        Self(mesh.Simplify(epsilon))
+    }
+
     func warp(_ function: @escaping (any Vector3) -> any Vector3) -> Manifold {
         Self(bridge.Warp(mesh) {
             $0.pointee = function($0.pointee).vec3
