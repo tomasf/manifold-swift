@@ -45,16 +45,4 @@ public extension Manifold {
     var genus: Int {
         Int(mesh.Genus())
     }
-
-    var matchesTriangleNormals: Bool {
-        mesh.MatchesTriNormals()
-    }
-
-    var degenerateTriangleCount: Int {
-        mesh.NumDegenerateTris()
-    }
-
-    var epsilon: Double {
-        mesh.GetEpsilon()
-    }
 }

@@ -28,10 +28,6 @@ public extension Manifold {
         mesh.MinGap(other.mesh, searchLength)
     }
 
-    func overlapCount(with other: Manifold) -> Int {
-        mesh.NumOverlaps(other.mesh)
-    }
-
     enum Error: Swift.Error {
         case nonFiniteVertex
         case notManifold
