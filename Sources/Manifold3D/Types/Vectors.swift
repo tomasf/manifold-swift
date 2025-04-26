@@ -1,24 +1,33 @@
 import ManifoldCPP
 
+public protocol Vector2 {
+    var x: Double { get }
+    var y: Double { get }
+
+    init(x: Double, y: Double)
+}
+
 public protocol Vector3 {
     var x: Double { get }
     var y: Double { get }
     var z: Double { get }
+
+    init(x: Double, y: Double, z: Double)
 }
 
-extension manifold.vec2: Vector2 {}
-
-public protocol Vector2 {
-    var x: Double { get }
-    var y: Double { get }
-}
-
-extension manifold.vec3: Vector3 {}
-
-internal extension Vector3 {
-    var vec3: manifold.vec3 { .init(x, y, z) }
-}
 
 internal extension Vector2 {
+    init(_ manifoldVector: manifold.vec2) {
+        self.init(x: manifoldVector.x, y: manifoldVector.y)
+    }
+
     var vec2: manifold.vec2 { .init(x, y) }
+}
+
+internal extension Vector3 {
+    init(_ manifoldVector: manifold.vec3) {
+        self.init(x: manifoldVector.x, y: manifoldVector.y, z: manifoldVector.z)
+    }
+
+    var vec3: manifold.vec3 { .init(x, y, z) }
 }

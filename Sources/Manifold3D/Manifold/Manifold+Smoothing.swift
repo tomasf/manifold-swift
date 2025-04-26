@@ -3,7 +3,7 @@ import ManifoldCPP
 import ManifoldBridge
 
 public extension Manifold {
-    init(meshGL: MeshGL, smoothEdges: [MeshGL.EdgeReference: Double]) {
+    init(meshGL: MeshGL<V>, smoothEdges: [MeshGL<V>.EdgeReference: Double]) {
         self = Self(manifold.Manifold.Smooth(meshGL.meshGL, .init(smoothEdges.map {
             manifold.Smoothness(halfedge: $0.key.index, smoothness: $0.value)
         })))
@@ -33,5 +33,9 @@ public extension Manifold {
 
     func settingTolerance(_ tolerance: Double) -> Manifold {
         Self(mesh.SetTolerance(tolerance))
+    }
+
+    func simplify(epsilon: Double) -> Self {
+        Self(mesh.Simplify(epsilon))
     }
 }

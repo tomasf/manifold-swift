@@ -5,9 +5,9 @@ public extension CrossSection {
         crossSection.IsEmpty()
     }
 
-    var bounds: (min: any Vector2, max: any Vector2) {
+    var bounds: (min: V, max: V) {
         let box = crossSection.Bounds()
-        return (box.min, box.max)
+        return (.init(box.min), .init(box.max))
     }
 
     var vertexCount: Int {

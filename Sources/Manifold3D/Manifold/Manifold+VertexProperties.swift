@@ -3,10 +3,10 @@ import ManifoldCPP
 import ManifoldBridge
 
 public extension Manifold {
-    func setProperties(channelCount: Int, getter function: @escaping (_ position: any Vector3, _ oldProperties: [Double]) -> [Double]) -> Self {
+    func setProperties(channelCount: Int, getter function: @escaping (_ position: V, _ oldProperties: [Double]) -> [Double]) -> Self {
         let oldCount = propertyCount
         return Self(bridge.SetProperties(mesh, .init(channelCount)) { newProps, position, oldProps in
-            let props = function(position, Array(UnsafeBufferPointer(start: oldProps, count: oldCount)))
+            let props = function(.init(position), Array(UnsafeBufferPointer(start: oldProps, count: oldCount)))
             _ = UnsafeMutableBufferPointer(start: newProps, count: channelCount)
                 .update(from: props)
         })

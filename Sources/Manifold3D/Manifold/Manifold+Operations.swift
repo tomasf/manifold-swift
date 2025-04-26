@@ -10,13 +10,9 @@ public extension Manifold {
         Self(mesh.Boolean(other.mesh, op.manifoldOp))
     }
 
-    func simplify(epsilon: Double) -> Self {
-        Self(mesh.Simplify(epsilon))
-    }
-
-    func warp(_ function: @escaping (any Vector3) -> any Vector3) -> Manifold {
+    func warp(_ function: @escaping (V) -> V) -> Manifold {
         Self(bridge.Warp(mesh) {
-            $0.pointee = function($0.pointee).vec3
+            $0.pointee = function(.init($0.pointee)).vec3
         })
     }
 }
@@ -30,7 +26,7 @@ public extension Manifold {
         Self(manifold.Manifold.Hull(.init(meshes.map(\.mesh))))
     }
 
-    static func hull(_ points: [any Vector3]) -> Self {
+    static func hull(_ points: [V]) -> Self {
         Self(manifold.Manifold.Hull(.init(points.map(\.vec3))))
     }
 }
@@ -41,22 +37,22 @@ public extension Manifold {
         return (Manifold(results.first), Manifold(results.second))
     }
 
-    func split(by plane: Vector3, originOffset: Double) -> (Manifold, Manifold) {
+    func split(by plane: V, originOffset: Double) -> (Manifold, Manifold) {
         let results = mesh.SplitByPlane(plane.vec3, originOffset)
         return (Manifold(results.first), Manifold(results.second))
     }
 
-    func trim(by plane: Vector3, originOffset: Double) -> Manifold {
+    func trim(by plane: V, originOffset: Double) -> Manifold {
         Manifold(mesh.TrimByPlane(plane.vec3, originOffset))
     }
 }
 
 public extension Manifold {
-    func projection() -> CrossSection {
+    func projection<V2: Vector2>() -> CrossSection<V2> {
         CrossSection(manifold.CrossSection(mesh.Project(), .Positive))
     }
 
-    func slice(at z: Double) -> CrossSection {
+    func slice<V2: Vector2>(at z: Double) -> CrossSection<V2> {
         CrossSection(manifold.CrossSection(mesh.Slice(z), .Positive))
     }
 }

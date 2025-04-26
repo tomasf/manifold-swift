@@ -12,4 +12,6 @@ manifold::Manifold LevelSet(double(^block)(manifold::vec3),
                             double level,
                             double tolerance,
                             bool canParallel);
+
+using ivec64 = manifold::la::vec<uint64_t, 3>;
 }

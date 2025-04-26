@@ -5,9 +5,9 @@ public extension Manifold {
         mesh.IsEmpty()
     }
 
-    var bounds: (min: any Vector3, max: any Vector3) {
+    var bounds: (min: V, max: V) {
         let box = mesh.BoundingBox()
-        return (box.min, box.max)
+        return (.init(box.min), .init(box.max))
     }
 
     var vertexCount: Int {

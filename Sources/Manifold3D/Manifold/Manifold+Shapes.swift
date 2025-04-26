@@ -2,7 +2,9 @@ import ManifoldCPP
 import ManifoldBridge
 
 public extension Manifold {
-    static let empty = Self(manifold.Manifold())
+    static var empty: Self {
+        Self(manifold.Manifold())
+    }
 
     static func tetrahedron() -> Self {
         Self(manifold.Manifold.Tetrahedron())
@@ -21,12 +23,12 @@ public extension Manifold {
     }
 
     static func levelSet(
-        bounds: (any Vector3, any Vector3),
+        bounds: (V, V),
         edgeLength: Double,
         level: Double = 0,
         tolerance: Double = -1,
-        functor: @escaping (any Vector3) -> Double
+        functor: @escaping (V) -> Double
     ) -> Self {
-        Self(bridge.LevelSet(functor, .init(bounds.0.vec3, bounds.1.vec3), edgeLength, level, tolerance, true))
+        Self(bridge.LevelSet({ functor(.init($0)) }, .init(bounds.0.vec3, bounds.1.vec3), edgeLength, level, tolerance, true))
     }
 }
