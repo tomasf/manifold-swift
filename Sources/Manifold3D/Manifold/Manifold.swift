@@ -40,6 +40,7 @@ public extension Manifold {
         case runIndexWrongLength
         case faceIDWrongLength
         case invalidConstruction
+        case resultTooLarge
 
         internal init?(_ error: manifold.Manifold.Error) {
             switch error {
@@ -55,6 +56,7 @@ public extension Manifold {
             case .RunIndexWrongLength: self = .runIndexWrongLength
             case .FaceIDWrongLength: self = .faceIDWrongLength
             case .InvalidConstruction: self = .invalidConstruction
+            case .ResultTooLarge: self = .resultTooLarge
             @unknown default:
                 assertionFailure("Unknown error")
                 return nil
