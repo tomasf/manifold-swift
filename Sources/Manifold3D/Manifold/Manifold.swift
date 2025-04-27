@@ -1,6 +1,6 @@
 import ManifoldCPP
 
-public struct Manifold<V: Vector3>: @unchecked Sendable {
+public struct Manifold<Vector: Vector3>: Geometry, @unchecked Sendable {    
     internal let mesh: manifold.Manifold
 
     internal init(_ mesh: manifold.Manifold) {
@@ -9,14 +9,14 @@ public struct Manifold<V: Vector3>: @unchecked Sendable {
 }
 
 public extension Manifold {
-    init(_ meshGL: MeshGL<V>) throws(Error) {
+    init(_ meshGL: MeshGL<Vector>) throws(Error) {
         self.init(manifold.Manifold(meshGL.meshGL))
         if isEmpty, let error = self.status {
             throw error
         }
     }
 
-    func meshGL(normalChannelIndex: Int = -1) -> MeshGL<V> {
+    func meshGL(normalChannelIndex: Int = -1) -> MeshGL<Vector> {
         MeshGL(meshGL: mesh.GetMeshGL64(Int32(normalChannelIndex)))
     }
 

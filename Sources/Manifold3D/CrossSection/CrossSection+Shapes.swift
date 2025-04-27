@@ -5,7 +5,7 @@ public extension CrossSection {
         Self(manifold.CrossSection())
     }
 
-    static func square(size: V) -> Self {
+    static func square(size: Vector) -> Self {
         Self(manifold.CrossSection.Square(size.vec2))
     }
 

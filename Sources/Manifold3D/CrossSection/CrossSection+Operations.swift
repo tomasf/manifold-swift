@@ -11,7 +11,7 @@ public extension CrossSection {
         Self(crossSection.Boolean(other.crossSection, op.manifoldOp))
     }
 
-    func warp(_ function: @escaping (V) -> V) -> Self {
+    func warp(_ function: @escaping (Vector) -> Vector) -> Self {
         Self(bridge.Warp(crossSection) {
             $0.pointee = function(.init($0.pointee)).vec2
         })
@@ -35,7 +35,7 @@ public extension CrossSection {
         Self(manifold.CrossSection.Hull(.init(crossSections.map(\.crossSection))))
     }
 
-    static func hull(_ points: [V]) -> Self {
+    static func hull(_ points: [Vector]) -> Self {
         Self(manifold.CrossSection.Hull(.init(points.map(\.vec2))))
     }
 }
@@ -45,7 +45,7 @@ public extension CrossSection {
         height: Double,
         divisions: Int = 0,
         twist twistDegrees: Double = 0,
-        scaleTop: V? = nil
+        scaleTop: Vector? = nil
     ) -> Manifold<V3> {
         Manifold(manifold.Manifold.Extrude(
             crossSection.ToPolygons(), height, Int32(divisions), twistDegrees, scaleTop?.vec2 ?? .init(1, 1))

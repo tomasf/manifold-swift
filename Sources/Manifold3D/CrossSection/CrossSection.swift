@@ -1,7 +1,7 @@
 import ManifoldCPP
 import Cxx
 
-public struct CrossSection<V: Vector2>: @unchecked Sendable {
+public struct CrossSection<Vector: Vector2>: Geometry, @unchecked Sendable {
     internal let crossSection: manifold.CrossSection
 
     internal init(_ crossSection: manifold.CrossSection) {
@@ -10,11 +10,11 @@ public struct CrossSection<V: Vector2>: @unchecked Sendable {
 }
 
 public extension CrossSection {
-    init(polygons: [Polygon<V>], fillRule: FillRule) {
+    init(polygons: [Polygon<Vector>], fillRule: FillRule) {
         self.init(manifold.CrossSection(Polygon.manifoldPolygons(polygons), fillRule.manifoldFillRule))
     }
 
-    func polygons() -> [Polygon<V>] {
+    func polygons() -> [Polygon<Vector>] {
         crossSection.ToPolygons().map { Polygon($0) }
     }
 

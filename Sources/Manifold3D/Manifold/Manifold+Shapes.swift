@@ -23,11 +23,11 @@ public extension Manifold {
     }
 
     static func levelSet(
-        bounds: (V, V),
+        bounds: (Vector, Vector),
         edgeLength: Double,
         level: Double = 0,
         tolerance: Double = -1,
-        functor: @escaping (V) -> Double
+        functor: @escaping (Vector) -> Double
     ) -> Self {
         Self(bridge.LevelSet({ functor(.init($0)) }, .init(bounds.0.vec3, bounds.1.vec3), edgeLength, level, tolerance, true))
     }

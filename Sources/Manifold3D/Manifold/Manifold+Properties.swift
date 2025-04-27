@@ -5,7 +5,7 @@ public extension Manifold {
         mesh.IsEmpty()
     }
 
-    var bounds: (min: V, max: V) {
+    var bounds: (min: Vector, max: Vector) {
         let box = mesh.BoundingBox()
         return (.init(box.min), .init(box.max))
     }

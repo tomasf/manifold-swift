@@ -2,7 +2,7 @@ import Foundation
 import ManifoldCPP
 import ManifoldBridge
 
-public struct MeshGL<V: Vector3> {
+public struct MeshGL<Vector: Vector3> {
     internal let meshGL: manifold.MeshGL64
 
     internal init(meshGL: manifold.MeshGL64) {
@@ -11,7 +11,7 @@ public struct MeshGL<V: Vector3> {
 }
 
 public extension MeshGL {
-    init(vertices: [V], triangles: [Triangle]) {
+    init(vertices: [Vector], triangles: [Triangle]) {
         var meshGL = manifold.MeshGL64()
         meshGL.numProp = 3
         meshGL.vertProperties = .init(vertices.flatMap { [$0.x, $0.y, $0.z] })
@@ -30,9 +30,9 @@ public extension MeshGL {
         meshGL.faceID.map { Int($0) }
     }
 
-    var vertices: [V] {
+    var vertices: [Vector] {
         (0..<Int(meshGL.NumVert())).map {
-            V(meshGL.GetVertPos($0))
+            Vector(meshGL.GetVertPos($0))
         }
     }
 
