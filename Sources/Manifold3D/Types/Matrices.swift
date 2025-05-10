@@ -1,12 +1,11 @@
 import ManifoldCPP
 
-public protocol Matrix3x4 {
+public protocol Matrix {
     subscript(_ row: Int, _ column: Int) -> Double { get }
 }
 
-public protocol Matrix2x3 {
-    subscript(_ row: Int, _ column: Int) -> Double { get }
-}
+public protocol Matrix3x4: Matrix {}
+public protocol Matrix2x3: Matrix {}
 
 internal extension Matrix3x4 {
     var mat3x4: manifold.mat3x4 {

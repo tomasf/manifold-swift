@@ -14,7 +14,7 @@ Add the package as a dependency in your Package.swift (or Xcode project). Becaus
 let package = Package(
     name: "manifold-swift-example",
     dependencies: [
-        .package(url: "https://github.com/tomasf/manifold-swift.git", .upToNextMinor(from: "0.1.0"))
+        .package(url: "https://github.com/tomasf/manifold-swift.git", .upToNextMinor(from: "0.2.0"))
     ],
     targets: [
         .executableTarget(
@@ -28,21 +28,19 @@ let package = Package(
 
 ## Example
 
-The library uses protocols for vectors and matrices, so you can add conformance to your own types and send them in without conversion.
+The library uses protocols for vectors and matrices. The `Manifold` and `CrossSection` types are generic over V, so you can plug in your own vector type.
+
 
 ```swift
-import Manifold3D
-
-struct V: Vector3 {
-    let x: Double
-    let y: Double
-    let z: Double
+struct MyVector: Vector3 {
+    let x, y, z: Double
 }
 
-let sphere = Manifold.sphere(radius: 10, segmentCount: 25)
-let box = Manifold.cube(size: V(x: 12, y: 20, z: 20))
-    .rotate(V(x: 20, y: 25, z: 0))
-let difference = sphere.boolean(.difference, with: box)
+let box = Manifold.cube(size: MyVector(x: 12, y: 20, z: 20))
+    .rotate(MyVector(x: 20, y: 25, z: 0))
+
+let difference = Manifold.sphere(radius: 10, segmentCount: 25)
+    .boolean(.difference, with: box)
 
 let meshGL = difference.meshGL()
 // Render or save meshGL.vertices, meshGL.triangles, etc.

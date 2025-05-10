@@ -10,7 +10,7 @@ public extension Manifold {
         Self(mesh.Boolean(other.mesh, op.manifoldOp))
     }
 
-    func warp(_ function: @escaping (V) -> V) -> Manifold {
+    func warp(_ function: @escaping (Vector) -> Vector) -> Manifold {
         Self(bridge.Warp(mesh) {
             $0.pointee = function(.init($0.pointee)).vec3
         })
@@ -26,7 +26,7 @@ public extension Manifold {
         Self(manifold.Manifold.Hull(.init(meshes.map(\.mesh))))
     }
 
-    static func hull(_ points: [V]) -> Self {
+    static func hull(_ points: [Vector]) -> Self {
         Self(manifold.Manifold.Hull(.init(points.map(\.vec3))))
     }
 }
@@ -37,12 +37,12 @@ public extension Manifold {
         return (Manifold(results.first), Manifold(results.second))
     }
 
-    func split(by plane: V, originOffset: Double) -> (Manifold, Manifold) {
+    func split(by plane: Vector, originOffset: Double) -> (Manifold, Manifold) {
         let results = mesh.SplitByPlane(plane.vec3, originOffset)
         return (Manifold(results.first), Manifold(results.second))
     }
 
-    func trim(by plane: V, originOffset: Double) -> Manifold {
+    func trim(by plane: Vector, originOffset: Double) -> Manifold {
         Manifold(mesh.TrimByPlane(plane.vec3, originOffset))
     }
 }

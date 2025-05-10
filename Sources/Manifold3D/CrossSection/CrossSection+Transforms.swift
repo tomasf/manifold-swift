@@ -1,15 +1,15 @@
 import ManifoldCPP
 
 public extension CrossSection {
-    func transform<M: Matrix2x3>(_ transform: M) -> Self {
+    func transform(_ transform: any Matrix2x3) -> Self {
         Self(crossSection.Transform(transform.mat2x3))
     }
 
-    func translate(_ translation: V) -> Self {
+    func translate(_ translation: Vector) -> Self {
         Self(crossSection.Translate(translation.vec2))
     }
 
-    func scale(_ scale: V) -> Self {
+    func scale(_ scale: Vector) -> Self {
         Self(crossSection.Scale(scale.vec2))
     }
 
@@ -17,7 +17,7 @@ public extension CrossSection {
         Self(crossSection.Rotate(degrees))
     }
 
-    func mirror(_ axis: V) -> Self {
+    func mirror(_ axis: Vector) -> Self {
         Self(crossSection.Mirror(axis.vec2))
     }
 }
