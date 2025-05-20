@@ -2,7 +2,7 @@ import ManifoldCPP
 import Cxx
 
 public struct CrossSection<Vector: Vector2>: Geometry, @unchecked Sendable {
-    internal let crossSection: manifold.CrossSection
+    public let crossSection: manifold.CrossSection
 
     internal init(_ crossSection: manifold.CrossSection) {
         self.crossSection = crossSection
