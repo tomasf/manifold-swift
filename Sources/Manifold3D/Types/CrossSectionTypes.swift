@@ -22,12 +22,14 @@ public extension CrossSection {
         case miter
         case round
         case square
+        case bevel
 
         internal var manifoldType: manifold.CrossSection.JoinType {
             switch self {
             case .miter: return .Miter
             case .round: return .Round
             case .square: return .Square
+            case .bevel: return .Bevel
             }
         }
     }
