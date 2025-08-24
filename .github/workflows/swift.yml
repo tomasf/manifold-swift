@@ -5,7 +5,7 @@ name: Swift
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
   pull_request:
     branches: [ "main" ]
 
@@ -13,12 +13,14 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-14, ubuntu-latest]
+        os: [macos-14, ubuntu-latest, windows-latest]
 
     runs-on: ${{ matrix.os }}
 
     steps:
     - uses: SwiftyLab/setup-swift@latest
+      with:
+        visual-studio-components: Microsoft.VisualStudio.Component.Windows11SDK.22621
     - uses: actions/checkout@v4
       with:
         submodules: true
