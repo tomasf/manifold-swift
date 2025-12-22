@@ -1,4 +1,4 @@
-import ManifoldCPP
+@_implementationOnly import ManifoldCPP
 
 public extension Manifold {
     func transform(_ transform: any Matrix3x4) -> Self {

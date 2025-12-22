@@ -1,13 +1,13 @@
-import ManifoldCPP
+@_implementationOnly import ManifoldCPP
 
-public protocol Vector2 {
+public protocol Vector2: Sendable {
     var x: Double { get }
     var y: Double { get }
 
     init(x: Double, y: Double)
 }
 
-public protocol Vector3 {
+public protocol Vector3: Sendable {
     var x: Double { get }
     var y: Double { get }
     var z: Double { get }

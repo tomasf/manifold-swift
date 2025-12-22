@@ -1,7 +1,7 @@
-import ManifoldCPP
+@_implementationOnly import ManifoldCPP
 
-public struct Manifold<Vector: Vector3>: Geometry, @unchecked Sendable {    
-    public let mesh: manifold.Manifold
+public struct Manifold<Vector: Vector3>: Geometry, @unchecked Sendable {
+    internal let mesh: manifold.Manifold
 
     internal init(_ mesh: manifold.Manifold) {
         self.mesh = mesh

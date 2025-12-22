@@ -1,4 +1,4 @@
-import ManifoldCPP
+@_implementationOnly import ManifoldCPP
 
 public extension CrossSection {
     var isEmpty: Bool {
