@@ -1,4 +1,4 @@
-import ManifoldCPP
+@_implementationOnly import ManifoldCPP
 
 public protocol Matrix {
     subscript(_ row: Int, _ column: Int) -> Double { get }

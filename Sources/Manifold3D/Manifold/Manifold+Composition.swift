@@ -1,4 +1,4 @@
-import ManifoldCPP
+@_implementationOnly import ManifoldCPP
 
 public extension Manifold {
     init(composing meshes: [Manifold]) {

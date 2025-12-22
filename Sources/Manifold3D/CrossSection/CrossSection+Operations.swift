@@ -1,6 +1,6 @@
 import Foundation
-import ManifoldCPP
-import ManifoldBridge
+@_implementationOnly import ManifoldCPP
+@_implementationOnly import ManifoldBridge
 
 public extension CrossSection {
     static func boolean(_ op: BooleanOperation, with children: [Self]) -> Self {

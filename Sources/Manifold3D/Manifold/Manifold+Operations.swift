@@ -1,5 +1,5 @@
-import ManifoldCPP
-import ManifoldBridge
+@_implementationOnly import ManifoldCPP
+@_implementationOnly import ManifoldBridge
 
 public extension Manifold {
     static func boolean(_ op: BooleanOperation, with children: [Manifold]) -> Self {
