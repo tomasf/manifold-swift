@@ -18,10 +18,6 @@ public extension CrossSection {
         crossSection.ToPolygons().map { Polygon($0) }
     }
 
-    init(composing crossSections: [Self]) {
-        self = Self(manifold.CrossSection.Compose(.init(crossSections.map(\.crossSection))))
-    }
-
     func decompose() -> [Self] {
         crossSection.Decompose().map(CrossSection.init)
     }
