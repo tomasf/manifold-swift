@@ -1,9 +1,11 @@
-@_implementationOnly import ManifoldCPP
+import ManifoldCPP
+import ManifoldBridge
 
 public struct Manifold<Vector: Vector3>: Geometry, @unchecked Sendable {
-    internal let mesh: manifold.Manifold
+    public let mesh: manifold.Manifold
 
     internal init(_ mesh: manifold.Manifold) {
+        initializeQoS()
         self.mesh = mesh
     }
 }
