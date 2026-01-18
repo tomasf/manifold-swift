@@ -1,10 +1,12 @@
-@_implementationOnly import ManifoldCPP
+import ManifoldCPP
+import ManifoldBridge
 import Cxx
 
 public struct CrossSection<Vector: Vector2>: Geometry, @unchecked Sendable {
-    internal let crossSection: manifold.CrossSection
+    public let crossSection: manifold.CrossSection
 
     internal init(_ crossSection: manifold.CrossSection) {
+        initializeQoS()
         self.crossSection = crossSection
     }
 }
@@ -16,10 +18,6 @@ public extension CrossSection {
 
     func polygons() -> [Polygon<Vector>] {
         crossSection.ToPolygons().map { Polygon($0) }
-    }
-
-    init(composing crossSections: [Self]) {
-        self = Self(manifold.CrossSection.Compose(.init(crossSections.map(\.crossSection))))
     }
 
     func decompose() -> [Self] {

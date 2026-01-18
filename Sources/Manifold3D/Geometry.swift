@@ -6,7 +6,6 @@ public protocol Geometry<Vector>: Sendable {
     associatedtype Transform
 
     static var empty: Self { get }
-    init(composing: [Self])
     func decompose() -> [Self]
 
     var isEmpty: Bool { get }

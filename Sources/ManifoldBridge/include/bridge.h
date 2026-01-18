@@ -1,5 +1,8 @@
 #include "manifold/manifold.h"
 
+/// Initialize TBB QoS settings for optimal performance on Apple Silicon.
+void initializeQoS();
+
 namespace bridge {
 manifold::Manifold Warp(const manifold::Manifold& mesh, void(^block)(manifold::vec3&));
 manifold::CrossSection Warp(const manifold::CrossSection& crossSection, void(^block)(manifold::vec2&));
