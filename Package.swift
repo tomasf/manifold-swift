@@ -31,7 +31,8 @@ let package = Package(
                 .define("_DARWIN_C_SOURCE"),
                 .define("__TBB_DYNAMIC_LOAD_ENABLED", to: "0"),
                 .define("__TBB_WAITPKG_INTRINSICS_PRESENT", to: "0"),
-                .define("__TBB_TSX_INTRINSICS_PRESENT", to: "0")
+                .define("__TBB_TSX_INTRINSICS_PRESENT", to: "0"),
+                .define("__TBB_BUILD", to: "1")
             ]
         ),
         .target(
