@@ -41,7 +41,8 @@ let package = Package(
             exclude: ["src/CMakeLists.txt", "src/meshIO"],
             sources: ["src"],
             cxxSettings: [
-                .define("MANIFOLD_PAR", to: "1")
+                .define("MANIFOLD_PAR", to: "1"),
+                .define("__TBB_NO_IMPLICIT_LINKAGE", to: "1")
             ]
         ),
         .target(
