@@ -1,5 +1,5 @@
-@_implementationOnly import ManifoldCPP
-@_implementationOnly import ManifoldBridge
+internal import ManifoldCPP
+internal import ManifoldBridge
 
 public extension Manifold {
     static var empty: Self {

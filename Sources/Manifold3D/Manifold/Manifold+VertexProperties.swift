@@ -1,6 +1,6 @@
 import Foundation
-@_implementationOnly import ManifoldCPP
-@_implementationOnly import ManifoldBridge
+internal import ManifoldCPP
+internal import ManifoldBridge
 
 public extension Manifold {
     func setProperties(channelCount: Int, getter function: @escaping (_ position: Vector, _ oldProperties: [Double]) -> [Double]) -> Self {

@@ -1,4 +1,4 @@
-@_implementationOnly import ManifoldCPP
+internal import ManifoldCPP
 
 public struct Quality {
     private init() {}

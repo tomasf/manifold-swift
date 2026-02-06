@@ -1,4 +1,4 @@
-@_implementationOnly import ManifoldCPP
+internal import ManifoldCPP
 
 public extension Manifold {
     var isEmpty: Bool {

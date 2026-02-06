@@ -1,4 +1,4 @@
-@_implementationOnly import ManifoldCPP
+internal import ManifoldCPP
 
 public extension CrossSection {
     func transform(_ transform: any Matrix2x3) -> Self {

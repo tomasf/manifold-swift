@@ -1,6 +1,6 @@
 import Foundation
-@_implementationOnly import ManifoldCPP
-@_implementationOnly import ManifoldBridge
+internal import ManifoldCPP
+internal import ManifoldBridge
 
 public extension Manifold {
     init(meshGL: MeshGL<Vector>, smoothEdges: [MeshGL<Vector>.EdgeReference: Double]) {

@@ -1,6 +1,6 @@
 import Foundation
-@_implementationOnly import ManifoldCPP
-@_implementationOnly import ManifoldBridge
+internal import ManifoldCPP
+internal import ManifoldBridge
 
 public struct MeshGL<Vector: Vector3> {
     internal let meshGL: manifold.MeshGL64

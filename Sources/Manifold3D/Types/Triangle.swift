@@ -1,6 +1,6 @@
 import Foundation
-@_implementationOnly import ManifoldCPP
-@_implementationOnly import ManifoldBridge
+internal import ManifoldCPP
+internal import ManifoldBridge
 
 public struct Triangle: Hashable, Sendable {
     public typealias VertexIndex = Int

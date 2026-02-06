@@ -1,5 +1,5 @@
-import ManifoldCPP
-import ManifoldBridge
+internal import ManifoldCPP
+internal import ManifoldBridge
 import Cxx
 
 public struct CrossSection<Vector: Vector2>: Geometry, @unchecked Sendable {

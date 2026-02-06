@@ -1,4 +1,4 @@
-@_implementationOnly import ManifoldCPP
+internal import ManifoldCPP
 
 public protocol Vector2: Sendable {
     var x: Double { get }

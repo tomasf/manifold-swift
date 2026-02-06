@@ -1,5 +1,5 @@
 import Foundation
-@_implementationOnly import ManifoldCPP
+internal import ManifoldCPP
 
 public extension CrossSection {
     enum FillRule: Hashable, Sendable {

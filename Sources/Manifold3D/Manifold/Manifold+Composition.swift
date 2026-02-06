@@ -1,4 +1,4 @@
-@_implementationOnly import ManifoldCPP
+internal import ManifoldCPP
 
 public extension Manifold {
     func decompose() -> [Manifold] {

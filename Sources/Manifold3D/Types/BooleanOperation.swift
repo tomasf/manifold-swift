@@ -1,4 +1,4 @@
-@_implementationOnly import ManifoldCPP
+internal import ManifoldCPP
 
 public enum BooleanOperation: Hashable, Sendable {
     case union

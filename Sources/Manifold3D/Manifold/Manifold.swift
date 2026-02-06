@@ -1,5 +1,5 @@
-import ManifoldCPP
-import ManifoldBridge
+internal import ManifoldCPP
+internal import ManifoldBridge
 
 public struct Manifold<Vector: Vector3>: Geometry, @unchecked Sendable {
     public let mesh: manifold.Manifold

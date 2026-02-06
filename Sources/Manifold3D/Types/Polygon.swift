@@ -1,5 +1,5 @@
 import Foundation
-@_implementationOnly import ManifoldCPP
+internal import ManifoldCPP
 
 public struct Polygon<V: Vector2> {
     public let vertices: [V]
