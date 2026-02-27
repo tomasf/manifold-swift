@@ -54,6 +54,11 @@ let package = Package(
             name: "Manifold3D",
             dependencies: ["ManifoldCPP", "ManifoldBridge"],
             swiftSettings: [.interoperabilityMode(.Cxx)]
+        ),
+        .testTarget(
+            name: "Manifold3DTests",
+            dependencies: ["Manifold3D"],
+            swiftSettings: [.interoperabilityMode(.Cxx)]
         )
     ],
     cxxLanguageStandard: .cxx17
