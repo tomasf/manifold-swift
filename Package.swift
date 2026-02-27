@@ -39,7 +39,7 @@ let package = Package(
             name: "ManifoldCPP",
             dependencies: ["Clipper2", "oneTBB"],
             path: "External/manifold",
-            exclude: ["src/CMakeLists.txt", "src/meshIO"],
+            exclude: ["src/CMakeLists.txt"],
             sources: ["src"],
             cxxSettings: [
                 .define("MANIFOLD_PAR", to: "1"),
