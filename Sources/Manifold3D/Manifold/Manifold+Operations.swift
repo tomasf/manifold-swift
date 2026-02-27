@@ -18,6 +18,18 @@ public extension Manifold {
         Self(mesh.Boolean(other.mesh, op.manifoldOp))
     }
 
+    /// Returns the Minkowski sum of this manifold and another.
+    /// - Parameter other: The manifold to add in Minkowski space.
+    func minkowskiSum(with other: Manifold) -> Self {
+        Self(mesh.MinkowskiSum(other.mesh))
+    }
+
+    /// Returns the Minkowski difference of this manifold and another.
+    /// - Parameter other: The manifold to subtract in Minkowski space.
+    func minkowskiDifference(with other: Manifold) -> Self {
+        Self(mesh.MinkowskiDifference(other.mesh))
+    }
+
     /// Applies a function to each vertex position, deforming the manifold.
     ///
     /// It is the caller's responsibility to ensure the function maintains valid manifold topology
