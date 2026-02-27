@@ -6,17 +6,18 @@ public extension CrossSection {
         Self(manifold.CrossSection())
     }
 
-    /// Creates a rectangle with the given dimensions, with its minimum corner at the origin.
+    /// Creates a rectangle with the given dimensions.
     /// - Parameter size: The width and height of the rectangle.
-    static func square(size: Vector) -> Self {
-        Self(manifold.CrossSection.Square(size.vec2))
+    /// - Parameter center: If `true`, the square is centered at the origin. Defaults to `false`.
+    static func square(size: Vector, center: Bool = false) -> Self {
+        Self(manifold.CrossSection.Square(size.vec2, center))
     }
 
     /// Creates a circle centered at the origin.
     /// - Parameter radius: The radius of the circle.
     /// - Parameter segmentCount: The number of line segments used to approximate the circle.
-    static func circle(radius: Double, segmentCount: Int) -> Self {
+    ///   Use `0` to choose the count from the current ``Quality`` circular settings (default).
+    static func circle(radius: Double, segmentCount: Int = 0) -> Self {
         Self(manifold.CrossSection.Circle(radius, Int32(segmentCount)))
     }
 }
-

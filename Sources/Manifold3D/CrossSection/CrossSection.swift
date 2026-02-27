@@ -20,8 +20,8 @@ public struct CrossSection<Vector: Vector2>: Geometry, @unchecked Sendable {
 public extension CrossSection {
     /// Creates a cross-section from polygons using the specified fill rule.
     /// - Parameter polygons: The input polygons.
-    /// - Parameter fillRule: The rule used to determine which areas are considered inside.
-    init(polygons: [Polygon<Vector>], fillRule: FillRule) {
+    /// - Parameter fillRule: The rule used to determine which areas are considered inside. Defaults to `.positive`.
+    init(polygons: [Polygon<Vector>], fillRule: FillRule = .positive) {
         self.init(manifold.CrossSection(Polygon.manifoldPolygons(polygons), fillRule.manifoldFillRule))
     }
 

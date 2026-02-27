@@ -46,6 +46,9 @@ let meshGL = difference.meshGL()
 // Render or save meshGL.vertices, meshGL.triangles, etc.
 ```
 
+Note: For APIs that accept `segmentCount` / `circularSegments`, passing `0` means
+"choose automatically from the current `Quality` circular settings."
+
 Read the [Manifold documentation](https://manifoldcad.org/docs/html) for more information.
 
 ## Contributions

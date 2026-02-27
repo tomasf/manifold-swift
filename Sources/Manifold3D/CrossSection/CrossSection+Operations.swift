@@ -26,10 +26,16 @@ public extension CrossSection {
 
     /// Offsets the contours of this cross-section by the given amount.
     /// - Parameter amount: The offset distance. Positive values expand, negative values shrink.
-    /// - Parameter joinType: The method used to join path segments at corners.
-    /// - Parameter miterLimit: The maximum extension for miter joins, as a multiple of the offset.
-    /// - Parameter circularSegments: The number of segments for round joins. If `nil`, uses the global quality setting.
-    func offset(amount: Double, joinType: JoinType, miterLimit: Double, circularSegments: Int? = nil) -> Self {
+    /// - Parameter joinType: The method used to join path segments at corners. Defaults to `.round`.
+    /// - Parameter miterLimit: The maximum extension for miter joins, as a multiple of the offset. Defaults to `2.0`.
+    /// - Parameter circularSegments: The number of segments for round joins.
+    ///   If `nil` (or `0`), uses the current ``Quality`` circular settings.
+    func offset(
+        amount: Double,
+        joinType: JoinType = .round,
+        miterLimit: Double = 2.0,
+        circularSegments: Int? = nil
+    ) -> Self {
         Self(crossSection.Offset(amount, joinType.manifoldType, miterLimit, Int32(circularSegments ?? 0)))
     }
 
@@ -75,9 +81,10 @@ public extension CrossSection {
     }
 
     /// Revolves this cross-section around the Y axis to create a 3D manifold.
-    /// - Parameter degrees: The angle of revolution in degrees.
+    /// - Parameter degrees: The angle of revolution in degrees. Defaults to `360`.
     /// - Parameter circularSegments: The number of segments used to approximate the revolution.
-    func revolve<V3: Vector3>(degrees: Double, circularSegments: Int) -> Manifold<V3> {
+    ///   Use `0` to choose the count from the current ``Quality`` circular settings (default).
+    func revolve<V3: Vector3>(degrees: Double = 360, circularSegments: Int = 0) -> Manifold<V3> {
         Manifold(manifold.Manifold.Revolve(crossSection.ToPolygons(), Int32(circularSegments), degrees))
     }
 }

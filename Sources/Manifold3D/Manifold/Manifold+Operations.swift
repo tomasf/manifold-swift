@@ -79,8 +79,8 @@ public extension Manifold {
     }
 
     /// Slices this manifold at the given Z height, producing a 2D cross-section.
-    /// - Parameter z: The Z coordinate at which to slice.
-    func slice<V2: Vector2>(at z: Double) -> CrossSection<V2> {
+    /// - Parameter z: The Z coordinate at which to slice. Defaults to `0`.
+    func slice<V2: Vector2>(at z: Double = 0) -> CrossSection<V2> {
         CrossSection(manifold.CrossSection(mesh.Slice(z), .Positive))
     }
 }

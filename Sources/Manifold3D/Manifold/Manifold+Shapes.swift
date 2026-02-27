@@ -15,24 +15,32 @@ public extension Manifold {
     /// Creates a sphere centered at the origin.
     /// - Parameter radius: The radius of the sphere.
     /// - Parameter segmentCount: The number of segments used to approximate the sphere.
-    static func sphere(radius: Double, segmentCount: Int) -> Self {
+    ///   Use `0` to choose the count from the current ``Quality`` circular settings (default).
+    static func sphere(radius: Double, segmentCount: Int = 0) -> Self {
         Self(manifold.Manifold.Sphere(radius, Int32(segmentCount)))
     }
 
     /// Creates a cylinder centered on the Z axis.
     /// - Parameter height: The height of the cylinder along the Z axis.
     /// - Parameter bottomRadius: The radius at the bottom (Z = 0 or Z = -height/2).
-    /// - Parameter topRadius: The radius at the top. Use a different value to create a cone or frustum.
+    /// - Parameter topRadius: The radius at the top. Defaults to `-1` (same as `bottomRadius`).
     /// - Parameter segmentCount: The number of segments used to approximate the circular cross-section.
-    /// - Parameter center: If `true`, the cylinder is centered at the origin; otherwise the bottom is at Z = 0.
-    static func cylinder(height: Double, bottomRadius: Double, topRadius: Double, segmentCount: Int, center: Bool = false) -> Self {
+    ///   Use `0` to choose the count from the current ``Quality`` circular settings (default).
+    /// - Parameter center: If `true`, the cylinder is centered at the origin; otherwise the bottom is at Z = 0. Defaults to `false`.
+    static func cylinder(
+        height: Double,
+        bottomRadius: Double,
+        topRadius: Double = -1,
+        segmentCount: Int = 0,
+        center: Bool = false
+    ) -> Self {
         Self(manifold.Manifold.Cylinder(height, bottomRadius, topRadius, Int32(segmentCount), center))
     }
 
     /// Creates an axis-aligned box.
-    /// - Parameter size: The dimensions of the box along each axis.
-    /// - Parameter center: If `true`, the box is centered at the origin; otherwise the minimum corner is at the origin.
-    static func cube(size: any Vector3, center: Bool = false) -> Self {
+    /// - Parameter size: The dimensions of the box along each axis. Defaults to `(1, 1, 1)`.
+    /// - Parameter center: If `true`, the box is centered at the origin; otherwise the minimum corner is at the origin. Defaults to `false`.
+    static func cube(size: any Vector3 = Vector(x: 1, y: 1, z: 1), center: Bool = false) -> Self {
         Self(manifold.Manifold.Cube(size.vec3, center))
     }
 

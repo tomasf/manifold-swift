@@ -8,8 +8,8 @@ public extension Manifold {
     /// Edges with smoothness `0` are sharp and edges with smoothness `1` are fully smooth.
     /// The mesh is refined into a smooth surface when ``refine(piecesPerEdge:)`` or similar is called.
     /// - Parameter meshGL: The input mesh.
-    /// - Parameter smoothEdges: A dictionary mapping edge references to smoothness values (0 to 1).
-    init(meshGL: MeshGL<Vector>, smoothEdges: [MeshGL<Vector>.EdgeReference: Double]) {
+    /// - Parameter smoothEdges: A dictionary mapping edge references to smoothness values (0 to 1). Defaults to an empty dictionary.
+    init(meshGL: MeshGL<Vector>, smoothEdges: [MeshGL<Vector>.EdgeReference: Double] = [:]) {
         self = Self(manifold.Manifold.Smooth(meshGL.meshGL, .init(smoothEdges.map {
             manifold.Smoothness(halfedge: $0.key.index, smoothness: $0.value)
         })))
@@ -22,9 +22,9 @@ public extension Manifold {
     }
 
     /// Automatically smooths edges that are less sharp than the given angle.
-    /// - Parameter minSharpAngle: Edges with dihedral angles less than this (in degrees) will be smoothed.
-    /// - Parameter minSmoothness: The minimum smoothness value to assign to smoothed edges.
-    func smoothOut(minSharpAngle: Double, minSmoothness: Double) -> Self {
+    /// - Parameter minSharpAngle: Edges with dihedral angles less than this (in degrees) will be smoothed. Defaults to `60`.
+    /// - Parameter minSmoothness: The minimum smoothness value to assign to smoothed edges. Defaults to `0`.
+    func smoothOut(minSharpAngle: Double = 60, minSmoothness: Double = 0) -> Self {
         Self(mesh.SmoothOut(minSharpAngle, minSmoothness))
     }
 }
@@ -55,8 +55,8 @@ public extension Manifold {
     }
 
     /// Simplifies the mesh by removing vertices that are within the given tolerance.
-    /// - Parameter epsilon: The maximum distance a vertex may be removed from its original position.
-    func simplify(epsilon: Double) -> Self {
+    /// - Parameter epsilon: The maximum distance a vertex may be removed from its original position. Defaults to `0`.
+    func simplify(epsilon: Double = 0) -> Self {
         Self(mesh.Simplify(epsilon))
     }
 }
