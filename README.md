@@ -14,7 +14,7 @@ Add the package as a dependency in your Package.swift (or Xcode project). Becaus
 let package = Package(
     name: "manifold-swift-example",
     dependencies: [
-        .package(url: "https://github.com/tomasf/manifold-swift.git", .upToNextMinor(from: "0.2.0"))
+        .package(url: "https://github.com/tomasf/manifold-swift.git", from: "1.0.0")
     ],
     targets: [
         .executableTarget(
@@ -46,7 +46,7 @@ let meshGL = difference.meshGL()
 // Render or save meshGL.vertices, meshGL.triangles, etc.
 ```
 
-Note: For APIs that accept `segmentCount` / `circularSegments`, passing `0` means
+Note: For APIs that accept `segmentCount` / `circularSegments`, passing `nil` means
 "choose automatically from the current `Quality` circular settings."
 
 Read the [Manifold documentation](https://manifoldcad.org/docs/html) for more information.
