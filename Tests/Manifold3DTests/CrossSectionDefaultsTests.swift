@@ -26,9 +26,9 @@ import Testing
     #expect(implicit.vertexCount == explicit.vertexCount)
 }
 
-@Test func `circle default segment count matches explicit zero`() {
+@Test func `circle default segment count matches explicit nil`() {
     let implicit = TestCrossSection.circle(radius: 1)
-    let explicit = TestCrossSection.circle(radius: 1, segmentCount: 0)
+    let explicit = TestCrossSection.circle(radius: 1, segmentCount: nil)
 
     #expect(implicit.vertexCount == explicit.vertexCount)
     #expect(implicit.contourCount == explicit.contourCount)
@@ -48,7 +48,7 @@ import Testing
     let profile = TestCrossSection.square(size: TestVec2(x: 0.4, y: 0.4), center: false)
 
     let implicit: TestManifold = profile.revolve()
-    let explicit: TestManifold = profile.revolve(degrees: 360, circularSegments: 0)
+    let explicit: TestManifold = profile.revolve(degrees: 360, circularSegments: nil)
 
     #expect(implicit.triangleCount == explicit.triangleCount)
     #expect(implicit.vertexCount == explicit.vertexCount)

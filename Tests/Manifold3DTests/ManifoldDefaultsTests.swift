@@ -11,9 +11,9 @@ import Testing
     TestSupport.expectVec3Close(implicit.bounds.max, explicit.bounds.max)
 }
 
-@Test func `sphere default segment count matches explicit zero`() {
+@Test func `sphere default segment count matches explicit nil`() {
     let implicit: TestManifold = .sphere(radius: 2)
-    let explicit: TestManifold = .sphere(radius: 2, segmentCount: 0)
+    let explicit: TestManifold = .sphere(radius: 2, segmentCount: nil)
 
     #expect(implicit.triangleCount == explicit.triangleCount)
     #expect(implicit.vertexCount == explicit.vertexCount)
@@ -24,8 +24,8 @@ import Testing
     let explicit: TestManifold = .cylinder(
         height: 4,
         bottomRadius: 1.5,
-        topRadius: -1,
-        segmentCount: 0,
+        topRadius: nil,
+        segmentCount: nil,
         center: false
     )
 
@@ -35,14 +35,25 @@ import Testing
     TestSupport.expectVec3Close(implicit.bounds.max, explicit.bounds.max)
 }
 
-@Test func `meshGL default normal channel matches explicit minus one`() {
+@Test func `meshGL default normal channel matches explicit nil`() {
     let manifold: TestManifold = .sphere(radius: 1.2, segmentCount: 24)
     let implicit = manifold.meshGL()
-    let explicit = manifold.meshGL(normalChannelIndex: -1)
+    let explicit = manifold.meshGL(normalChannelIndex: nil)
 
     #expect(implicit.vertexCount == explicit.vertexCount)
     #expect(implicit.triangleCount == explicit.triangleCount)
     #expect(implicit.propertyCount == explicit.propertyCount)
+}
+
+@Test func `levelSet default tolerance matches explicit nil`() {
+    let bounds = (TestVec3(x: -1.5, y: -1.5, z: -1.5), TestVec3(x: 1.5, y: 1.5, z: 1.5))
+    let sdf: (TestVec3) -> Double = { v in (v.x * v.x + v.y * v.y + v.z * v.z).squareRoot() - 1.0 }
+
+    let implicit = TestManifold.levelSet(bounds: bounds, edgeLength: 0.5, functor: sdf)
+    let explicit = TestManifold.levelSet(bounds: bounds, edgeLength: 0.5, tolerance: nil, functor: sdf)
+
+    #expect(implicit.triangleCount == explicit.triangleCount)
+    #expect(!implicit.isEmpty)
 }
 
 @Test func `slice default height matches explicit zero`() {
