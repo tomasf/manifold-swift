@@ -10,6 +10,7 @@ public extension Manifold {
     /// - Parameter meshGL: The input mesh.
     /// - Parameter smoothEdges: A dictionary mapping edge references to smoothness values (0 to 1). Defaults to an empty dictionary.
     init(meshGL: MeshGL<Vector>, smoothEdges: [MeshGL<Vector>.EdgeReference: Double] = [:]) {
+        initializeQoS()
         self = Self(manifold.Manifold.Smooth(meshGL.meshGL, .init(smoothEdges.map {
             manifold.Smoothness(halfedge: $0.key.index, smoothness: $0.value)
         })))

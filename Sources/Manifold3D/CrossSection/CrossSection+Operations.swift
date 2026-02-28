@@ -75,7 +75,8 @@ public extension CrossSection {
         twist twistDegrees: Double = 0,
         scaleTop: Vector? = nil
     ) -> Manifold<V3> {
-        Manifold(manifold.Manifold.Extrude(
+        initializeQoS()
+        return Manifold(manifold.Manifold.Extrude(
             crossSection.ToPolygons(), height, Int32(divisions), twistDegrees, scaleTop?.vec2 ?? .init(1, 1))
         )
     }
@@ -85,6 +86,7 @@ public extension CrossSection {
     /// - Parameter circularSegments: The number of segments used to approximate the revolution.
     ///   Use `0` to choose the count from the current ``Quality`` circular settings (default).
     func revolve<V3: Vector3>(degrees: Double = 360, circularSegments: Int = 0) -> Manifold<V3> {
-        Manifold(manifold.Manifold.Revolve(crossSection.ToPolygons(), Int32(circularSegments), degrees))
+        initializeQoS()
+        return Manifold(manifold.Manifold.Revolve(crossSection.ToPolygons(), Int32(circularSegments), degrees))
     }
 }

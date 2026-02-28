@@ -13,7 +13,6 @@ public struct Manifold<Vector: Vector3>: Geometry, @unchecked Sendable {
     internal let mesh: manifold.Manifold
 
     internal init(_ mesh: manifold.Manifold) {
-        initializeQoS()
         self.mesh = mesh
     }
 }
@@ -23,6 +22,7 @@ public extension Manifold {
     /// - Parameter meshGL: The mesh to construct from.
     /// - Throws: A ``ManifoldError`` if the mesh is not valid.
     init(_ meshGL: MeshGL<Vector>) throws(Error) {
+        initializeQoS()
         self.init(manifold.Manifold(meshGL.meshGL))
         if isEmpty, let error = self.status {
             throw error

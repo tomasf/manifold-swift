@@ -4,12 +4,14 @@ internal import ManifoldBridge
 public extension Manifold {
     /// An empty manifold with no geometry.
     static var empty: Self {
-        Self(manifold.Manifold())
+        initializeQoS()
+        return Self(manifold.Manifold())
     }
 
     /// Creates a regular tetrahedron centered at the origin with unit edge length.
     static func tetrahedron() -> Self {
-        Self(manifold.Manifold.Tetrahedron())
+        initializeQoS()
+        return Self(manifold.Manifold.Tetrahedron())
     }
 
     /// Creates a sphere centered at the origin.
@@ -17,7 +19,8 @@ public extension Manifold {
     /// - Parameter segmentCount: The number of segments used to approximate the sphere.
     ///   Use `0` to choose the count from the current ``Quality`` circular settings (default).
     static func sphere(radius: Double, segmentCount: Int = 0) -> Self {
-        Self(manifold.Manifold.Sphere(radius, Int32(segmentCount)))
+        initializeQoS()
+        return Self(manifold.Manifold.Sphere(radius, Int32(segmentCount)))
     }
 
     /// Creates a cylinder centered on the Z axis.
@@ -34,14 +37,16 @@ public extension Manifold {
         segmentCount: Int = 0,
         center: Bool = false
     ) -> Self {
-        Self(manifold.Manifold.Cylinder(height, bottomRadius, topRadius, Int32(segmentCount), center))
+        initializeQoS()
+        return Self(manifold.Manifold.Cylinder(height, bottomRadius, topRadius, Int32(segmentCount), center))
     }
 
     /// Creates an axis-aligned box.
     /// - Parameter size: The dimensions of the box along each axis. Defaults to `(1, 1, 1)`.
     /// - Parameter center: If `true`, the box is centered at the origin; otherwise the minimum corner is at the origin. Defaults to `false`.
     static func cube(size: any Vector3 = Vector(x: 1, y: 1, z: 1), center: Bool = false) -> Self {
-        Self(manifold.Manifold.Cube(size.vec3, center))
+        initializeQoS()
+        return Self(manifold.Manifold.Cube(size.vec3, center))
     }
 
     /// Creates a manifold from an implicit function (level set / signed distance function).
@@ -62,6 +67,7 @@ public extension Manifold {
         tolerance: Double = -1,
         functor: @escaping (Vector) -> Double
     ) -> Self {
-        Self(bridge.LevelSet({ functor(.init($0)) }, .init(bounds.0.vec3, bounds.1.vec3), edgeLength, level, tolerance, true))
+        initializeQoS()
+        return Self(bridge.LevelSet({ functor(.init($0)) }, .init(bounds.0.vec3, bounds.1.vec3), edgeLength, level, tolerance, true))
     }
 }
