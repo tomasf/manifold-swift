@@ -31,17 +31,19 @@ let package = Package(
                 .define("_DARWIN_C_SOURCE"),
                 .define("__TBB_DYNAMIC_LOAD_ENABLED", to: "0"),
                 .define("__TBB_WAITPKG_INTRINSICS_PRESENT", to: "0"),
-                .define("__TBB_TSX_INTRINSICS_PRESENT", to: "0")
+                .define("__TBB_TSX_INTRINSICS_PRESENT", to: "0"),
+                .define("__TBB_BUILD", to: "1")
             ]
         ),
         .target(
             name: "ManifoldCPP",
             dependencies: ["Clipper2", "oneTBB"],
             path: "External/manifold",
-            exclude: ["src/CMakeLists.txt", "src/meshIO"],
+            exclude: ["src/CMakeLists.txt"],
             sources: ["src"],
             cxxSettings: [
-                .define("MANIFOLD_PAR", to: "1")
+                .define("MANIFOLD_PAR", to: "1"),
+                .define("__TBB_NO_IMPLICIT_LINKAGE", to: "1")
             ]
         ),
         .target(
@@ -51,6 +53,11 @@ let package = Package(
         .target(
             name: "Manifold3D",
             dependencies: ["ManifoldCPP", "ManifoldBridge"],
+            swiftSettings: [.interoperabilityMode(.Cxx)]
+        ),
+        .testTarget(
+            name: "Manifold3DTests",
+            dependencies: ["Manifold3D"],
             swiftSettings: [.interoperabilityMode(.Cxx)]
         )
     ],

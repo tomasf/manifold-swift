@@ -5,10 +5,13 @@
 #ifdef __APPLE__
 #include <pthread.h>
 #include <oneapi/tbb/task_scheduler_observer.h>
+#include <oneapi/tbb/parallel_for.h>
+#include <oneapi/tbb/blocked_range.h>
+#include <oneapi/tbb/info.h>
 
 namespace {
     // Sets QoS on TBB worker threads to improve scheduling on Apple Silicon.
-    // This eliminates priority inversion warnings and allows workers to run on P-cores.
+    // Reduces priority inversion warnings and allows workers to run on P-cores.
     class AppleQoSObserver : public tbb::task_scheduler_observer {
     public:
         AppleQoSObserver() { observe(true); }
@@ -22,6 +25,16 @@ namespace {
     pthread_once_t qos_once = PTHREAD_ONCE_INIT;
     void doInitQoS() {
         static AppleQoSObserver observer;
+        // Pre-warm the TBB thread pool so workers carry User-initiated QoS into
+        // all subsequent Manifold operations. Without this, the observer fires only
+        // after the OS has already scheduled workers at Default QoS, which is too
+        // late to prevent priority inversion warnings on the very first operation.
+        int n = tbb::info::default_concurrency();
+        tbb::parallel_for(tbb::blocked_range<int>(0, n),
+            [](const tbb::blocked_range<int>&) {
+                pthread_set_qos_class_self_np(QOS_CLASS_USER_INITIATED, 0);
+            }
+        );
     }
 }
 
