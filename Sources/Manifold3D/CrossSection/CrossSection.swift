@@ -1,4 +1,5 @@
 internal import ManifoldCPP
+internal import ManifoldBridge
 import Cxx
 
 /// A 2D cross-section representing one or more closed, non-self-intersecting contours.
@@ -11,6 +12,7 @@ public struct CrossSection<Vector: Vector2>: Geometry, @unchecked Sendable {
     internal let crossSection: manifold.CrossSection
 
     internal init(_ crossSection: manifold.CrossSection) {
+        initializeQoS()
         self.crossSection = crossSection
     }
 }

@@ -8,7 +8,8 @@
 
 namespace {
     // Sets QoS on TBB worker threads to improve scheduling on Apple Silicon.
-    // This eliminates priority inversion warnings and allows workers to run on P-cores.
+    // Reduces priority inversion warnings and allows workers to run on P-cores.
+    // Called from Swift init methods to register the observer before TBB work begins.
     class AppleQoSObserver : public tbb::task_scheduler_observer {
     public:
         AppleQoSObserver() { observe(true); }
@@ -27,14 +28,6 @@ namespace {
 
 void initializeQoS() {
     pthread_once(&qos_once, doInitQoS);
-}
-
-// Ensure QoS is configured at library load time, before any TBB work begins.
-// Calling initializeQoS() from Manifold.init is too late — TBB work happens
-// inside the C++ call that produces the Manifold, before Swift wraps the result.
-__attribute__((constructor))
-static void earlyInitQoS() {
-    initializeQoS();
 }
 #else
 void initializeQoS() {}

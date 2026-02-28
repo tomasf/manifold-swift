@@ -1,4 +1,5 @@
 internal import ManifoldCPP
+internal import ManifoldBridge
 
 /// A 3D manifold solid, representing a closed, watertight triangle mesh.
 ///
@@ -12,6 +13,7 @@ public struct Manifold<Vector: Vector3>: Geometry, @unchecked Sendable {
     internal let mesh: manifold.Manifold
 
     internal init(_ mesh: manifold.Manifold) {
+        initializeQoS()
         self.mesh = mesh
     }
 }
