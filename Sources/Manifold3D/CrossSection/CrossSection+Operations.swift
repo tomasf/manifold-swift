@@ -29,7 +29,7 @@ public extension CrossSection {
     /// - Parameter joinType: The method used to join path segments at corners. Defaults to `.round`.
     /// - Parameter miterLimit: The maximum extension for miter joins, as a multiple of the offset. Defaults to `2.0`.
     /// - Parameter circularSegments: The number of segments for round joins.
-    ///   If `nil` (or `0`), uses the current ``Quality`` circular settings.
+    ///   If `nil`, uses the current ``Quality`` circular settings.
     func offset(
         amount: Double,
         joinType: JoinType = .round,
@@ -84,9 +84,9 @@ public extension CrossSection {
     /// Revolves this cross-section around the Y axis to create a 3D manifold.
     /// - Parameter degrees: The angle of revolution in degrees. Defaults to `360`.
     /// - Parameter circularSegments: The number of segments used to approximate the revolution.
-    ///   Use `0` to choose the count from the current ``Quality`` circular settings (default).
-    func revolve<V3: Vector3>(degrees: Double = 360, circularSegments: Int = 0) -> Manifold<V3> {
+    ///   Use `nil` to choose the count from the current ``Quality`` circular settings (default).
+    func revolve<V3: Vector3>(degrees: Double = 360, circularSegments: Int? = nil) -> Manifold<V3> {
         initializeQoS()
-        return Manifold(manifold.Manifold.Revolve(crossSection.ToPolygons(), Int32(circularSegments), degrees))
+        return Manifold(manifold.Manifold.Revolve(crossSection.ToPolygons(), Int32(circularSegments ?? 0), degrees))
     }
 }

@@ -17,28 +17,28 @@ public extension Manifold {
     /// Creates a sphere centered at the origin.
     /// - Parameter radius: The radius of the sphere.
     /// - Parameter segmentCount: The number of segments used to approximate the sphere.
-    ///   Use `0` to choose the count from the current ``Quality`` circular settings (default).
-    static func sphere(radius: Double, segmentCount: Int = 0) -> Self {
+    ///   Use `nil` to choose the count from the current ``Quality`` circular settings (default).
+    static func sphere(radius: Double, segmentCount: Int? = nil) -> Self {
         initializeQoS()
-        return Self(manifold.Manifold.Sphere(radius, Int32(segmentCount)))
+        return Self(manifold.Manifold.Sphere(radius, Int32(segmentCount ?? 0)))
     }
 
     /// Creates a cylinder centered on the Z axis.
     /// - Parameter height: The height of the cylinder along the Z axis.
     /// - Parameter bottomRadius: The radius at the bottom (Z = 0 or Z = -height/2).
-    /// - Parameter topRadius: The radius at the top. Defaults to `-1` (same as `bottomRadius`).
+    /// - Parameter topRadius: The radius at the top. Defaults to `nil` (same as `bottomRadius`).
     /// - Parameter segmentCount: The number of segments used to approximate the circular cross-section.
-    ///   Use `0` to choose the count from the current ``Quality`` circular settings (default).
+    ///   Use `nil` to choose the count from the current ``Quality`` circular settings (default).
     /// - Parameter center: If `true`, the cylinder is centered at the origin; otherwise the bottom is at Z = 0. Defaults to `false`.
     static func cylinder(
         height: Double,
         bottomRadius: Double,
-        topRadius: Double = -1,
-        segmentCount: Int = 0,
+        topRadius: Double? = nil,
+        segmentCount: Int? = nil,
         center: Bool = false
     ) -> Self {
         initializeQoS()
-        return Self(manifold.Manifold.Cylinder(height, bottomRadius, topRadius, Int32(segmentCount), center))
+        return Self(manifold.Manifold.Cylinder(height, bottomRadius, topRadius ?? -1, Int32(segmentCount ?? 0), center))
     }
 
     /// Creates an axis-aligned box.
@@ -57,17 +57,17 @@ public extension Manifold {
     /// - Parameter bounds: The bounding box to evaluate the function within.
     /// - Parameter edgeLength: The grid cell size. Smaller values produce finer detail.
     /// - Parameter level: The iso-value at which to extract the surface. Defaults to `0`.
-    /// - Parameter tolerance: The precision for surface location. Use `-1` for automatic.
+    /// - Parameter tolerance: The precision for surface location. Use `nil` for automatic (default).
     /// - Parameter functor: A function returning the signed distance at each point.
     ///   Negative values are inside the surface.
     static func levelSet(
         bounds: (Vector, Vector),
         edgeLength: Double,
         level: Double = 0,
-        tolerance: Double = -1,
+        tolerance: Double? = nil,
         functor: @escaping (Vector) -> Double
     ) -> Self {
         initializeQoS()
-        return Self(bridge.LevelSet({ functor(.init($0)) }, .init(bounds.0.vec3, bounds.1.vec3), edgeLength, level, tolerance, true))
+        return Self(bridge.LevelSet({ functor(.init($0)) }, .init(bounds.0.vec3, bounds.1.vec3), edgeLength, level, tolerance ?? -1, true))
     }
 }

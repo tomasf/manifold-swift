@@ -30,11 +30,11 @@ public extension Manifold {
     }
 
     /// Exports the manifold as a ``MeshGL`` mesh.
-    /// - Parameter normalChannelIndex: If non-negative, the vertex property channel index where
-    ///   normals will be recalculated and stored. Defaults to `-1` (no normal update).
+    /// - Parameter normalChannelIndex: The vertex property channel index where normals will be
+    ///   recalculated and stored. Pass `nil` (default) to skip normal calculation.
     /// - Returns: The mesh representation of this manifold.
-    func meshGL(normalChannelIndex: Int = -1) -> MeshGL<Vector> {
-        MeshGL(meshGL: mesh.GetMeshGL64(Int32(normalChannelIndex)))
+    func meshGL(normalChannelIndex: Int? = nil) -> MeshGL<Vector> {
+        MeshGL(meshGL: mesh.GetMeshGL64(Int32(normalChannelIndex ?? -1)))
     }
 
     /// The error status of this manifold, or `nil` if no error has occurred.

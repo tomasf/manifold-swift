@@ -16,8 +16,8 @@ public extension CrossSection {
     /// Creates a circle centered at the origin.
     /// - Parameter radius: The radius of the circle.
     /// - Parameter segmentCount: The number of line segments used to approximate the circle.
-    ///   Use `0` to choose the count from the current ``Quality`` circular settings (default).
-    static func circle(radius: Double, segmentCount: Int = 0) -> Self {
-        Self(manifold.CrossSection.Circle(radius, Int32(segmentCount)))
+    ///   Use `nil` to choose the count from the current ``Quality`` circular settings (default).
+    static func circle(radius: Double, segmentCount: Int? = nil) -> Self {
+        Self(manifold.CrossSection.Circle(radius, Int32(segmentCount ?? 0)))
     }
 }
