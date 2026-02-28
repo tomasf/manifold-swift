@@ -13,25 +13,25 @@ public struct MeshGL<Vector: Vector3> {
     internal init(meshGL: manifold.MeshGL64) {
         self.meshGL = meshGL
     }
-}
 
-public extension MeshGL {
     /// Creates a mesh from vertex positions and triangle indices.
     /// - Parameter vertices: The vertex positions.
     /// - Parameter triangles: The triangles, each referencing three indices into `vertices`.
-    init(vertices: [Vector], triangles: [Triangle]) {
+    public init(vertices: [Vector], triangles: [Triangle]) {
         var meshGL = manifold.MeshGL64()
         meshGL.numProp = 3
         meshGL.vertProperties = .init(vertices.flatMap { [$0.x, $0.y, $0.z] })
         meshGL.triVerts = .init(triangles.flatMap(\.indices).map { .init($0) })
         self.meshGL = meshGL
     }
+}
 
+public extension MeshGL {
     /// The triangles of this mesh.
     var triangles: [Triangle] {
-        let meshGL = self.meshGL
-        return (0..<meshGL.NumTri()).map {
-            Triangle(meshGL.GetTriVerts(Int($0)))
+        let tris = Array(meshGL.triVerts)
+        return stride(from: 0, to: tris.count, by: 3).map { i in
+            Triangle(Int(tris[i]), Int(tris[i + 1]), Int(tris[i + 2]))
         }
     }
 
@@ -42,8 +42,10 @@ public extension MeshGL {
 
     /// The vertex positions of this mesh.
     var vertices: [Vector] {
-        (0..<Int(meshGL.NumVert())).map {
-            Vector(meshGL.GetVertPos($0))
+        let props = vertexProperties
+        let count = propertyCount
+        return stride(from: 0, to: props.count, by: count).map { i in
+            Vector(x: props[i], y: props[i + 1], z: props[i + 2])
         }
     }
 
@@ -54,12 +56,12 @@ public extension MeshGL {
 
     /// The number of vertices in this mesh.
     var vertexCount: Int {
-        Int(meshGL.NumVert())
+        Int(meshGL.vertProperties.size()) / propertyCount
     }
 
     /// The number of triangles in this mesh.
     var triangleCount: Int {
-        Int(meshGL.NumTri())
+        Int(meshGL.triVerts.size()) / 3
     }
 
     /// The precision tolerance for vertex deduplication.
