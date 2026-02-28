@@ -28,6 +28,14 @@ namespace {
 void initializeQoS() {
     pthread_once(&qos_once, doInitQoS);
 }
+
+// Ensure QoS is configured at library load time, before any TBB work begins.
+// Calling initializeQoS() from Manifold.init is too late — TBB work happens
+// inside the C++ call that produces the Manifold, before Swift wraps the result.
+__attribute__((constructor))
+static void earlyInitQoS() {
+    initializeQoS();
+}
 #else
 void initializeQoS() {}
 #endif
