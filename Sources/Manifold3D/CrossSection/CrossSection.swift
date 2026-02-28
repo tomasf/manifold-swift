@@ -9,7 +9,7 @@ import Cxx
 ///
 /// Internally backed by the Clipper2 polygon clipping library.
 public struct CrossSection<Vector: Vector2>: Geometry, @unchecked Sendable {
-    public let crossSection: manifold.CrossSection
+    internal let crossSection: manifold.CrossSection
 
     internal init(_ crossSection: manifold.CrossSection) {
         initializeQoS()

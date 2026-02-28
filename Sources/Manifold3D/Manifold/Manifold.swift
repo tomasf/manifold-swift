@@ -10,7 +10,7 @@ internal import ManifoldBridge
 /// Create manifolds from primitives like ``sphere(radius:segmentCount:)`` and
 /// ``cube(size:center:)``, or from a ``MeshGL`` mesh.
 public struct Manifold<Vector: Vector3>: Geometry, @unchecked Sendable {
-    public let mesh: manifold.Manifold
+    internal let mesh: manifold.Manifold
 
     internal init(_ mesh: manifold.Manifold) {
         initializeQoS()
