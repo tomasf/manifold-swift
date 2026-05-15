@@ -77,6 +77,10 @@ public enum ManifoldError: Swift.Error {
     case invalidConstruction
     /// The result mesh is too large.
     case resultTooLarge
+    /// The mesh contains invalid tangent vectors.
+    case invalidTangents
+    /// Evaluation was cancelled via the attached execution context.
+    case cancelled
 
     internal init?(_ error: manifold.Manifold.Error) {
         switch error {
@@ -93,6 +97,8 @@ public enum ManifoldError: Swift.Error {
         case .FaceIDWrongLength: self = .faceIDWrongLength
         case .InvalidConstruction: self = .invalidConstruction
         case .ResultTooLarge: self = .resultTooLarge
+        case .InvalidTangents: self = .invalidTangents
+        case .Cancelled: self = .cancelled
         @unknown default:
             assertionFailure("Unknown error")
             return nil

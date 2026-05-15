@@ -7,6 +7,13 @@ import PackageDescription
 
 let package = Package(
     name: "manifold-swift",
+    platforms: [
+        .macOS(.v10_15),
+        .iOS(.v13),
+        .tvOS(.v13),
+        .watchOS(.v6),
+        .visionOS(.v1),
+    ],
     products: [
         .library(name: "Manifold", targets: ["Manifold3D"]),
     ],
@@ -39,7 +46,13 @@ let package = Package(
             name: "ManifoldCPP",
             dependencies: ["Clipper2", "oneTBB"],
             path: "External/manifold",
-            exclude: ["src/CMakeLists.txt"],
+            exclude: [
+                "src/CMakeLists.txt",
+                // Upstream offers two CrossSection backends; CMake picks one at
+                // build time. SwiftPM compiles every source it sees, so exclude
+                // the non-clipper2 implementation to avoid duplicate symbols.
+                "src/cross_section/cross_section_boolean2.cpp",
+            ],
             sources: ["src"],
             cxxSettings: [
                 .define("MANIFOLD_PAR", to: "1"),
