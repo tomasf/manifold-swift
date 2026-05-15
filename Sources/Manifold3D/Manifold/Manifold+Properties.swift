@@ -56,4 +56,18 @@ public extension Manifold {
     var genus: Int {
         Int(mesh.Genus())
     }
+
+    /// Casts a ray segment against this manifold and returns every intersection.
+    ///
+    /// The ray is treated as a segment from `origin` to `endpoint`, inclusive of both
+    /// endpoints. Hits are ordered by increasing parametric distance.
+    ///
+    /// - Parameters:
+    ///   - origin: The start of the ray segment.
+    ///   - endpoint: The end of the ray segment.
+    /// - Returns: All hits along the segment, or an empty array if the ray misses.
+    func rayCast(from origin: Vector, to endpoint: Vector) -> [RayHit<Vector>] {
+        let hits = mesh.RayCast(origin.vec3, endpoint.vec3)
+        return hits.map { RayHit($0) }
+    }
 }
