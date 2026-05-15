@@ -74,6 +74,28 @@ public extension MeshGL {
         .init(meshGL.vertProperties)
     }
 
+    /// Returns a copy of this mesh with normals brought up to date with any pending per-run
+    /// transforms and backside flips.
+    ///
+    /// When a `MeshGL` is produced from a Boolean operation, each triangle run carries its
+    /// transform and a backside flag separately from the vertex data; the normals stored on
+    /// the vertices remain in their pre-transform frame. This method applies the accumulated
+    /// per-run transforms (and flips backside runs) into the normals at `channelIndex...channelIndex + 2`,
+    /// then clears the per-run metadata so a second call is a no-op.
+    ///
+    /// Useful when round-tripping a `MeshGL` through external storage where the run metadata
+    /// would be lost: bake normals into world frame before serializing.
+    ///
+    /// - Parameter channelIndex: The first of three consecutive property channels holding the
+    ///   `(x, y, z)` normal. Must be at least `3` (positions occupy channels `0...2`), and
+    ///   ``propertyCount`` must be at least `channelIndex + 3`.
+    /// - Returns: A new mesh with normals updated.
+    func updateNormals(channelIndex: Int) -> Self {
+        var copy = meshGL
+        copy.UpdateNormals(Int32(channelIndex))
+        return Self(meshGL: copy)
+    }
+
     /// Maps original IDs to the sets of triangle indices that originated from each source geometry.
     var originalIDs: [Manifold.OriginalID: IndexSet] {
         let ranges = meshGL.runIndex.paired().map { Int($0 / 3)..<Int($1 / 3) }
