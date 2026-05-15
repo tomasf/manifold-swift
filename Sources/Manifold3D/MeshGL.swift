@@ -97,12 +97,49 @@ public extension MeshGL {
     }
 
     /// Maps original IDs to the sets of triangle indices that originated from each source geometry.
+    ///
+    /// For the per-run backside flag, see ``runs``.
     var originalIDs: [Manifold.OriginalID: IndexSet] {
         let ranges = meshGL.runIndex.paired().map { Int($0 / 3)..<Int($1 / 3) }
         return ranges.enumerated().reduce(into: [:]) { result, item in
             let originalID = Int(meshGL.runOriginalID[item.offset])
             result[originalID, default: IndexSet()].insert(integersIn: item.element)
         }
+    }
+
+    /// The triangle runs in this mesh, each tagged with its source ``Manifold/OriginalID``
+    /// and a backside flag.
+    ///
+    /// A "run" is a contiguous range of triangles that share a common origin and transform
+    /// history. Boolean operations build the output as a concatenation of runs from the inputs.
+    /// The ``Run/isBackside`` flag indicates that a run came from geometry whose orientation
+    /// was inverted (e.g. by subtraction); its normals will need to be flipped if you want
+    /// outward-facing surface normals — see ``updateNormals(channelIndex:)``.
+    var runs: [Run] {
+        let indices = meshGL.runIndex
+        let count = indices.size() > 0 ? Int(indices.size()) - 1 : 0
+        let flags = meshGL.runFlags
+        let originals = meshGL.runOriginalID
+        return (0..<count).map { i in
+            Run(
+                originalID: Int(originals[i]),
+                triangleRange: Int(indices[i] / 3)..<Int(indices[i + 1] / 3),
+                isBackside: i < flags.size() && flags[i] == 1
+            )
+        }
+    }
+
+    /// A contiguous range of triangles in a ``MeshGL`` sharing a common source and orientation.
+    struct Run: Sendable {
+        /// The ``Manifold/OriginalID`` of the source geometry this run came from. May be `-1`
+        /// for runs without a single original (composed geometry).
+        public let originalID: Manifold.OriginalID
+        /// The range of triangle indices in the mesh that belong to this run.
+        public let triangleRange: Range<Int>
+        /// Whether this run's orientation was inverted relative to the original geometry
+        /// (e.g. from a subtraction). Vertex normals stored on this run point inward relative
+        /// to the output surface and need to be flipped to face outward.
+        public let isBackside: Bool
     }
 
     /// A reference to a specific edge within the mesh, identified by triangle and edge index.
