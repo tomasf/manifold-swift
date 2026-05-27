@@ -8,10 +8,10 @@ import PackageDescription
 let package = Package(
     name: "manifold-swift",
     platforms: [
-        .macOS(.v10_15),
-        .iOS(.v13),
-        .tvOS(.v13),
-        .watchOS(.v6),
+        .macOS(.v13),
+        .iOS(.v16),
+        .tvOS(.v16),
+        .watchOS(.v9),
         .visionOS(.v1),
     ],
     products: [
