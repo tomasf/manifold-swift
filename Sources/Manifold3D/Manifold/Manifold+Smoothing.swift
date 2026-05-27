@@ -17,15 +17,15 @@ public extension Manifold {
     }
 
     /// Sets smoothing based on vertex normals stored in the given property channels.
-    /// - Parameter index: The starting property channel index where normals are stored.
-    func smoothByNormals(index: Int) -> Self {
+    /// - Parameter index: The starting property channel index where normals are stored. Defaults to `0` (the standard slot).
+    func smoothByNormals(index: Int = 0) -> Self {
         Self(mesh.SmoothByNormals(Int32(index)))
     }
 
     /// Automatically smooths edges that are less sharp than the given angle.
-    /// - Parameter minSharpAngle: Edges with dihedral angles less than this (in degrees) will be smoothed. Defaults to `60`.
+    /// - Parameter minSharpAngle: Edges with dihedral angles less than this (in degrees) will be smoothed. Defaults to `52.5`.
     /// - Parameter minSmoothness: The minimum smoothness value to assign to smoothed edges. Defaults to `0`.
-    func smoothOut(minSharpAngle: Double = 60, minSmoothness: Double = 0) -> Self {
+    func smoothOut(minSharpAngle: Double = 52.5, minSmoothness: Double = 0) -> Self {
         Self(mesh.SmoothOut(minSharpAngle, minSmoothness))
     }
 }

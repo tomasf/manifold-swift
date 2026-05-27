@@ -30,8 +30,15 @@ public extension Manifold {
     }
 
     /// Exports the manifold as a ``MeshGL`` mesh.
-    /// - Parameter normalChannelIndex: The vertex property channel index where normals will be
-    ///   recalculated and stored. Pass `nil` (default) to skip normal calculation.
+    ///
+    /// If this manifold has recorded normals (via
+    /// ``calculateNormals(channelIndex:minSharpAngle:)`` with channel index `0`), they are
+    /// auto-substituted at output property channels `3...5` and the per-run ``MeshGL/Run/hasNormals``
+    /// flag is set, regardless of `normalChannelIndex`.
+    /// - Parameter normalChannelIndex: A non-standard channel where normals should be recomputed
+    ///   and stored at export time. This uses a legacy path; prefer recording normals on the
+    ///   manifold itself via ``calculateNormals(channelIndex:minSharpAngle:)``. Pass `nil`
+    ///   (default) for the standard auto-substitution behavior.
     /// - Returns: The mesh representation of this manifold.
     func meshGL(normalChannelIndex: Int? = nil) -> MeshGL<Vector> {
         MeshGL(meshGL: mesh.GetMeshGL64(Int32(normalChannelIndex ?? -1)))

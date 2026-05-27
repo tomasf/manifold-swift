@@ -69,7 +69,7 @@ import Testing
 @Test func `smoothOut default parameters match explicit defaults`() {
     let source: TestManifold = .cylinder(height: 3, bottomRadius: 1, segmentCount: 24)
     let implicit = source.smoothOut().refine(piecesPerEdge: 2)
-    let explicit = source.smoothOut(minSharpAngle: 60, minSmoothness: 0).refine(piecesPerEdge: 2)
+    let explicit = source.smoothOut(minSharpAngle: 52.5, minSmoothness: 0).refine(piecesPerEdge: 2)
 
     #expect(implicit.triangleCount == explicit.triangleCount)
     #expect(abs(implicit.volume - explicit.volume) <= 1e-9)
@@ -96,11 +96,11 @@ import Testing
     #expect(implicit.vertexCount == explicit.vertexCount)
 }
 
-@Test func `calculateNormals default minSharpAngle matches explicit sixty`() {
+@Test func `calculateNormals default parameters match explicit defaults`() {
     let source: TestManifold = .sphere(radius: 1.5, segmentCount: 20)
 
-    let implicit = source.calculateNormals(channelIndex: 0)
-    let explicit = source.calculateNormals(channelIndex: 0, minSharpAngle: 60)
+    let implicit = source.calculateNormals()
+    let explicit = source.calculateNormals(channelIndex: 0, minSharpAngle: 52.5)
 
     #expect(implicit.propertyCount == explicit.propertyCount)
     #expect(implicit.propertyVertexCount == explicit.propertyVertexCount)

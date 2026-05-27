@@ -74,28 +74,6 @@ public extension MeshGL {
         .init(meshGL.vertProperties)
     }
 
-    /// Returns a copy of this mesh with normals brought up to date with any pending per-run
-    /// transforms and backside flips.
-    ///
-    /// When a `MeshGL` is produced from a Boolean operation, each triangle run carries its
-    /// transform and a backside flag separately from the vertex data; the normals stored on
-    /// the vertices remain in their pre-transform frame. This method applies the accumulated
-    /// per-run transforms (and flips backside runs) into the normals at `channelIndex...channelIndex + 2`,
-    /// then clears the per-run metadata so a second call is a no-op.
-    ///
-    /// Useful when round-tripping a `MeshGL` through external storage where the run metadata
-    /// would be lost: bake normals into world frame before serializing.
-    ///
-    /// - Parameter channelIndex: The first of three consecutive property channels holding the
-    ///   `(x, y, z)` normal. Must be at least `3` (positions occupy channels `0...2`), and
-    ///   ``propertyCount`` must be at least `channelIndex + 3`.
-    /// - Returns: A new mesh with normals updated.
-    func updateNormals(channelIndex: Int) -> Self {
-        var copy = meshGL
-        copy.UpdateNormals(Int32(channelIndex))
-        return Self(meshGL: copy)
-    }
-
     /// Maps original IDs to the sets of triangle indices that originated from each source geometry.
     ///
     /// For the per-run backside flag, see ``runs``.
@@ -108,23 +86,22 @@ public extension MeshGL {
     }
 
     /// The triangle runs in this mesh, each tagged with its source ``Manifold/OriginalID``
-    /// and a backside flag.
+    /// and flags describing the run.
     ///
     /// A "run" is a contiguous range of triangles that share a common origin and transform
     /// history. Boolean operations build the output as a concatenation of runs from the inputs.
-    /// The ``Run/isBackside`` flag indicates that a run came from geometry whose orientation
-    /// was inverted (e.g. by subtraction); its normals will need to be flipped if you want
-    /// outward-facing surface normals — see ``updateNormals(channelIndex:)``.
     var runs: [Run] {
         let indices = meshGL.runIndex
         let count = indices.size() > 0 ? Int(indices.size()) - 1 : 0
         let flags = meshGL.runFlags
         let originals = meshGL.runOriginalID
         return (0..<count).map { i in
-            Run(
+            let flag = i < flags.size() ? flags[i] : 0
+            return Run(
                 originalID: Int(originals[i]),
                 triangleRange: Int(indices[i] / 3)..<Int(indices[i + 1] / 3),
-                isBackside: i < flags.size() && flags[i] == 1
+                isBackside: flag & 1 != 0,
+                hasNormals: flag & 2 != 0
             )
         }
     }
@@ -137,9 +114,14 @@ public extension MeshGL {
         /// The range of triangle indices in the mesh that belong to this run.
         public let triangleRange: Range<Int>
         /// Whether this run's orientation was inverted relative to the original geometry
-        /// (e.g. from a subtraction). Vertex normals stored on this run point inward relative
-        /// to the output surface and need to be flipped to face outward.
+        /// (e.g. from a subtraction). Informational only — the framework already orients
+        /// stored normals so the standard export returns world-frame values regardless.
         public let isBackside: Bool
+        /// Whether property channels `3...5` of this run hold world-frame vertex normals
+        /// (set by ``Manifold/calculateNormals(channelIndex:minSharpAngle:)`` with channel
+        /// index `0` and round-tripped through ``MeshGL``). Consumers should treat the slot
+        /// as normals and skip re-applying ``runTransform`` to it.
+        public let hasNormals: Bool
     }
 
     /// A reference to a specific edge within the mesh, identified by triangle and edge index.
