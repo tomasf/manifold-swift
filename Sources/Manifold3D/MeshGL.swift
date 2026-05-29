@@ -75,12 +75,53 @@ public extension MeshGL {
     }
 
     /// Maps original IDs to the sets of triangle indices that originated from each source geometry.
+    ///
+    /// For the per-run backside flag, see ``runs``.
     var originalIDs: [Manifold.OriginalID: IndexSet] {
         let ranges = meshGL.runIndex.paired().map { Int($0 / 3)..<Int($1 / 3) }
         return ranges.enumerated().reduce(into: [:]) { result, item in
             let originalID = Int(meshGL.runOriginalID[item.offset])
             result[originalID, default: IndexSet()].insert(integersIn: item.element)
         }
+    }
+
+    /// The triangle runs in this mesh, each tagged with its source ``Manifold/OriginalID``
+    /// and flags describing the run.
+    ///
+    /// A "run" is a contiguous range of triangles that share a common origin and transform
+    /// history. Boolean operations build the output as a concatenation of runs from the inputs.
+    var runs: [Run] {
+        let indices = meshGL.runIndex
+        let count = indices.size() > 0 ? Int(indices.size()) - 1 : 0
+        let flags = meshGL.runFlags
+        let originals = meshGL.runOriginalID
+        return (0..<count).map { i in
+            let flag = i < flags.size() ? flags[i] : 0
+            return Run(
+                originalID: Int(originals[i]),
+                triangleRange: Int(indices[i] / 3)..<Int(indices[i + 1] / 3),
+                isBackside: flag & 1 != 0,
+                hasNormals: flag & 2 != 0
+            )
+        }
+    }
+
+    /// A contiguous range of triangles in a ``MeshGL`` sharing a common source and orientation.
+    struct Run: Sendable {
+        /// The ``Manifold/OriginalID`` of the source geometry this run came from. May be `-1`
+        /// for runs without a single original (composed geometry).
+        public let originalID: Manifold.OriginalID
+        /// The range of triangle indices in the mesh that belong to this run.
+        public let triangleRange: Range<Int>
+        /// Whether this run's orientation was inverted relative to the original geometry
+        /// (e.g. from a subtraction). Informational only — the framework already orients
+        /// stored normals so the standard export returns world-frame values regardless.
+        public let isBackside: Bool
+        /// Whether property channels `3...5` of this run hold world-frame vertex normals
+        /// (set by ``Manifold/calculateNormals(channelIndex:minSharpAngle:)`` with channel
+        /// index `0` and round-tripped through ``MeshGL``). Consumers should treat the slot
+        /// as normals and skip re-applying ``runTransform`` to it.
+        public let hasNormals: Bool
     }
 
     /// A reference to a specific edge within the mesh, identified by triangle and edge index.
