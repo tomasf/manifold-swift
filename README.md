@@ -14,7 +14,7 @@ Add the package as a dependency in your Package.swift (or Xcode project). Becaus
 let package = Package(
     name: "manifold-swift-example",
     dependencies: [
-        .package(url: "https://github.com/tomasf/manifold-swift.git", from: "1.0.0")
+        .package(url: "https://github.com/tomasf/manifold-swift.git", from: "1.1.0")
     ],
     targets: [
         .executableTarget(
