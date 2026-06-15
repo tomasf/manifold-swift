@@ -27,6 +27,27 @@ public struct MeshGL<Vector: Vector3> {
 }
 
 public extension MeshGL {
+    /// Returns a copy whose merge vectors are recomputed so that topologically identical but
+    /// separated vertices are reconnected.
+    ///
+    /// This is a best-effort helper for the case where a manifold `MeshGL` was produced but its
+    /// merge vectors were lost through a round-trip via a file format (e.g. STL) that does not
+    /// preserve them. Manifoldness is judged by shared vertex *indices*, not by position, so a
+    /// surface that is closed geometrically but carries split coincident vertices is reported as
+    /// non-manifold — constructing a ``Manifold`` from it throws. Merging snaps those coincident
+    /// vertices back together so the mesh is accepted.
+    ///
+    /// When nothing needs merging, the result is equivalent to the original mesh.
+    ///
+    /// - Returns: A merged copy of the mesh.
+    func merged() -> MeshGL {
+        var meshGL = self.meshGL
+        _ = meshGL.Merge()
+        return MeshGL(meshGL: meshGL)
+    }
+}
+
+public extension MeshGL {
     /// The triangles of this mesh.
     var triangles: [Triangle] {
         let tris = Array(meshGL.triVerts)
