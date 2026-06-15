@@ -26,3 +26,13 @@ jobs:
       run: swift build -v
     - name: Test
       run: swift test -v
+
+  ios-simulator-build:
+    runs-on: macos-15
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - name: Build iOS Simulator
+      run: xcodebuild build -scheme manifold-swift -destination 'generic/platform=iOS Simulator' -derivedDataPath .build/xcode-derived-data CODE_SIGNING_ALLOWED=NO

@@ -8,7 +8,7 @@ This SPM package includes Manifold, as well as its dependencies Clipper2 and one
 
 ## Usage
 
-Add the package as a dependency in your Package.swift (or Xcode project). Because the library interfaces with C++, you need to enable C++ interoperability.
+Add the package as a dependency in your Package.swift (or Xcode project). Because the library interfaces with C++, **you need to enable C++ interoperability**. For Xcode projects, enable C++ interoperability in Swift compiler settings.
 
 ```swift
 let package = Package(
