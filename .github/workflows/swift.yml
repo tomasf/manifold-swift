@@ -27,6 +27,35 @@ jobs:
     - name: Test
       run: swift test -v
 
+  # Builds against a Swift development snapshot on macOS, where binaries link the
+  # runtime shipped in the OS rather than the one in the toolchain. A newer compiler
+  # paired with an older runtime is what surfaced swiftlang/swift#91375, where the
+  # Sequence conformance synthesized for a C++ std::vector reached a stdlib protocol
+  # the running system did not have. Nothing else in the matrix covers that pairing.
+  #
+  # Advisory only: snapshots break for reasons that have nothing to do with us, so a
+  # failure here should be read, not treated as a broken build.
+  snapshot-build-and-test:
+    name: build-and-test (Swift snapshot, macos-26)
+    runs-on: macos-26
+    continue-on-error: true
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: SwiftyLab/setup-swift@latest
+      with:
+        development: true
+        check-latest: true
+        prefer-oss-toolchain: true
+    - name: Show toolchain
+      run: swift --version
+    - name: Build
+      run: swift build -v
+    - name: Test
+      run: swift test -v
+
   ios-simulator-build:
     runs-on: macos-15
 
