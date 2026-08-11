@@ -99,10 +99,8 @@ public extension MeshGL {
     ///
     /// For the per-run backside flag, see ``runs``.
     var originalIDs: [Manifold.OriginalID: IndexSet] {
-        let ranges = meshGL.runIndex.paired().map { Int($0 / 3)..<Int($1 / 3) }
-        return ranges.enumerated().reduce(into: [:]) { result, item in
-            let originalID = Int(meshGL.runOriginalID[item.offset])
-            result[originalID, default: IndexSet()].insert(integersIn: item.element)
+        runs.reduce(into: [:]) { result, run in
+            result[run.originalID, default: IndexSet()].insert(integersIn: run.triangleRange)
         }
     }
 
