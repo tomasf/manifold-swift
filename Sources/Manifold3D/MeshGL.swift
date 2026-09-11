@@ -18,11 +18,45 @@ public struct MeshGL<Vector: Vector3> {
     /// - Parameter vertices: The vertex positions.
     /// - Parameter triangles: The triangles, each referencing three indices into `vertices`.
     public init(vertices: [Vector], triangles: [Triangle]) {
+        self.init(meshGL: Self.makeMeshGL(vertices: vertices, triangles: triangles))
+    }
+
+    /// Creates a mesh whose triangles are tagged with original IDs, so that where each face came
+    /// from can be traced through Boolean operations.
+    ///
+    /// Consecutive triangles sharing an ID form one run (see ``runs``). Reserve the IDs with
+    /// ``Manifold/reserveOriginalIDs(_:)`` so they're unique among all manifolds; a manifold built
+    /// from this mesh then reports them through ``originalIDs``, as does any manifold derived from
+    /// it by Boolean operations. Giving every triangle the same ID makes the mesh an original the
+    /// way ``Manifold/asOriginal()`` does, but with an ID chosen in advance.
+    ///
+    /// - Parameters:
+    ///   - vertices: The vertex positions.
+    ///   - triangles: The triangles, each referencing three indices into `vertices`.
+    ///   - originalIDs: The original ID of each triangle, in the same order as `triangles`.
+    public init(vertices: [Vector], triangles: [Triangle], originalIDs: [Manifold.OriginalID]) {
+        precondition(originalIDs.count == triangles.count, "One original ID is needed per triangle")
+
+        var runIndex: [Int] = []
+        var runOriginalID: [Manifold.OriginalID] = []
+        for (index, originalID) in originalIDs.enumerated() where index == 0 || originalIDs[index - 1] != originalID {
+            runIndex.append(index * 3)
+            runOriginalID.append(originalID)
+        }
+        runIndex.append(triangles.count * 3)
+
+        var meshGL = Self.makeMeshGL(vertices: vertices, triangles: triangles)
+        meshGL.runIndex = .init(runIndex.map { .init($0) })
+        meshGL.runOriginalID = .init(runOriginalID.map { .init($0) })
+        self.init(meshGL: meshGL)
+    }
+
+    private static func makeMeshGL(vertices: [Vector], triangles: [Triangle]) -> manifold.MeshGL64 {
         var meshGL = manifold.MeshGL64()
         meshGL.numProp = 3
         meshGL.vertProperties = .init(vertices.flatMap { [$0.x, $0.y, $0.z] })
         meshGL.triVerts = .init(triangles.flatMap(\.indices).map { .init($0) })
-        self.meshGL = meshGL
+        return meshGL
     }
 }
 
