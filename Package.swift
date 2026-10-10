@@ -5,6 +5,13 @@ import PackageDescription
 // If you get "invalid custom path" errors, you probably forgot to initialize submodules.
 // git submodule update --init --recursive
 
+// Platforms with and without threads. Manifold is built without oneTBB where there are no threads,
+// with stand-ins for the C++ standard library's missing thread types.
+let threadedPlatforms: [Platform] = [
+    .macOS, .macCatalyst, .iOS, .tvOS, .watchOS, .visionOS, .linux, .windows, .android, .openbsd,
+]
+let unthreadedPlatforms: [Platform] = [.wasi]
+
 let package = Package(
     name: "manifold-swift",
     platforms: [
@@ -44,7 +51,11 @@ let package = Package(
         ),
         .target(
             name: "ManifoldCPP",
-            dependencies: ["Clipper2", "oneTBB"],
+            dependencies: [
+                "Clipper2",
+                .target(name: "oneTBB", condition: .when(platforms: threadedPlatforms)),
+                .target(name: "ManifoldThreadShims", condition: .when(platforms: unthreadedPlatforms)),
+            ],
             path: "External/manifold",
             exclude: [
                 "src/CMakeLists.txt",
@@ -55,9 +66,13 @@ let package = Package(
             ],
             sources: ["src"],
             cxxSettings: [
-                .define("MANIFOLD_PAR", to: "1"),
+                .define("MANIFOLD_PAR", to: "1", .when(platforms: threadedPlatforms)),
+                .define("MANIFOLD_PAR", to: "-1", .when(platforms: unthreadedPlatforms)),
                 .define("__TBB_NO_IMPLICIT_LINKAGE", to: "1")
             ]
+        ),
+        .target(
+            name: "ManifoldThreadShims"
         ),
         .target(
             name: "ManifoldBridge",
