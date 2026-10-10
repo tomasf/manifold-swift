@@ -1,0 +1,41 @@
+// Found ahead of the C++ standard library's <mutex>, which it includes. Swift's WebAssembly SDK
+// builds libc++ without thread support, leaving out std::mutex, std::recursive_mutex,
+// std::scoped_lock and the atomic shared_ptr functions that Manifold uses. Nothing can contend
+// for a lock without threads, so these stand-ins do nothing.
+
+#pragma once
+#include_next <mutex>
+#include <memory>
+
+#if defined(_LIBCPP_HAS_THREADS) && !_LIBCPP_HAS_THREADS
+namespace std {
+struct mutex {
+  void lock() {}
+  void unlock() {}
+  bool try_lock() { return true; }
+};
+
+struct recursive_mutex {
+  void lock() {}
+  void unlock() {}
+  bool try_lock() { return true; }
+};
+
+template <class... Mutexes>
+struct scoped_lock {
+  explicit scoped_lock(Mutexes&...) {}
+};
+
+template <class T>
+shared_ptr<T> atomic_load(const shared_ptr<T>* p) { return *p; }
+
+template <class T>
+void atomic_store(shared_ptr<T>* p, shared_ptr<T> r) { p->swap(r); }
+
+template <class T>
+shared_ptr<T> atomic_exchange(shared_ptr<T>* p, shared_ptr<T> r) {
+  p->swap(r);
+  return r;
+}
+}  // namespace std
+#endif

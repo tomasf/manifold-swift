@@ -1,0 +1,3 @@
+module ManifoldThreadShims {
+  textual header "mutex"
+}
