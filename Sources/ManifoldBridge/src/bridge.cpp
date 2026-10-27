@@ -70,4 +70,28 @@ manifold::Manifold LevelSet(double(^block)(manifold::vec3),
     return manifold::Manifold::LevelSet(block, bounds, edgeLength, level, tolerance, canParallel);
 }
 
+void Cancel(manifold::ExecutionContext context) {
+    context.Cancel();
+}
+
+manifold::Manifold FromMeshGL(manifold::ExecutionContext context, const manifold::MeshGL64& mesh) {
+    return context.FromMeshGL(mesh);
+}
+
+manifold::Manifold Smooth(manifold::ExecutionContext context,
+                          const manifold::MeshGL64& mesh,
+                          const std::vector<manifold::Smoothness>& sharpenedEdges) {
+    return context.Smooth(mesh, sharpenedEdges);
+}
+
+manifold::Manifold LevelSet(manifold::ExecutionContext context,
+                            double(^block)(manifold::vec3),
+                            manifold::Box bounds,
+                            double edgeLength,
+                            double level,
+                            double tolerance,
+                            bool canParallel) {
+    return context.LevelSet(block, bounds, edgeLength, level, tolerance, canParallel);
+}
+
 } // end namespace
